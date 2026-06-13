@@ -1,0 +1,2928 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANURA — Plataforma Financeira Premium</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+/* ══════════════════════════════════════════════════════
+   ANURA DESIGN SYSTEM v3 — Premium Edition
+══════════════════════════════════════════════════════ */
+:root {
+  --midnight:      #052E2B;
+  --midnight-deep: #031f1d;
+  --midnight-mid:  #073d38;
+  --emerald:       #0B5D3B;
+  --emerald-bright:#0e7a4e;
+  --emerald-glow:  rgba(11,93,59,0.4);
+  --gold:          #D4AF37;
+  --gold-light:    #E8C84A;
+  --gold-dim:      rgba(212,175,55,0.18);
+  --gold-glow:     rgba(212,175,55,0.12);
+  --ivory:         #F8F5EE;
+  --ivory-dim:     rgba(248,245,238,0.7);
+  --ivory-muted:   rgba(248,245,238,0.4);
+  --ivory-ghost:   rgba(248,245,238,0.08);
+  --danger:        #e05555;
+  --danger-dim:    rgba(224,85,85,0.15);
+  --success:       #2ecc71;
+  --success-dim:   rgba(46,204,113,0.15);
+  --warning:       #f39c12;
+  --border:        rgba(212,175,55,0.14);
+  --border-strong: rgba(212,175,55,0.28);
+  --glass:         rgba(5,46,43,0.6);
+  --glass-light:   rgba(11,93,59,0.12);
+  --blur:          blur(20px);
+  --blur-heavy:    blur(40px);
+  --shadow-sm:     0 2px 8px rgba(0,0,0,0.3);
+  --shadow-md:     0 4px 24px rgba(0,0,0,0.4);
+  --shadow-lg:     0 8px 48px rgba(0,0,0,0.5);
+  --shadow-gold:   0 0 32px rgba(212,175,55,0.15);
+  --ease:          cubic-bezier(0.22,1,0.36,1);
+  --ease-bounce:   cubic-bezier(0.34,1.56,0.64,1);
+  --r-sm:  6px;
+  --r-md:  12px;
+  --r-lg:  18px;
+  --r-xl:  24px;
+  --r-2xl: 32px;
+  --sidebar-w: 260px;
+  --header-h: 64px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--midnight-deep);
+  color:var(--ivory);
+  overflow-x:hidden;
+  min-height:100vh;
+}
+
+/* ── SCROLLBAR ─────────────────────────────────────── */
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:4px}
+
+/* ── SPLASH ────────────────────────────────────────── */
+#splash{
+  position:fixed;inset:0;z-index:9999;
+  background:var(--midnight-deep);
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:1.5rem;
+  transition:opacity 0.5s var(--ease),visibility 0.5s;
+}
+#splash.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.splash-logo{
+  position:relative;
+  display:flex;align-items:center;gap:1rem;
+  animation:splashIn 0.6s var(--ease) both;
+}
+.splash-logo svg{
+  filter:drop-shadow(0 0 24px rgba(212,175,55,0.5));
+  animation:splashGlow 1.5s ease-in-out infinite alternate;
+}
+.splash-wordmark{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:2.8rem;font-weight:700;letter-spacing:-0.02em;
+  background:linear-gradient(135deg,var(--gold) 0%,var(--gold-light) 50%,var(--ivory) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 16px rgba(212,175,55,0.3));
+}
+.splash-tagline{
+  font-size:0.8rem;letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--ivory-muted);animation:splashIn 0.6s 0.2s var(--ease) both;
+}
+.splash-bar{
+  width:160px;height:2px;
+  background:var(--midnight-mid);border-radius:2px;overflow:hidden;
+  animation:splashIn 0.6s 0.3s var(--ease) both;
+}
+.splash-progress{
+  height:100%;width:0;
+  background:linear-gradient(90deg,var(--emerald-bright),var(--gold));
+  border-radius:2px;animation:splashLoad 1.6s 0.4s var(--ease) forwards;
+}
+.splash-particles{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.particle{
+  position:absolute;width:3px;height:3px;border-radius:50%;
+  background:var(--gold);opacity:0;
+  animation:particleFloat var(--dur) var(--delay) infinite;
+}
+@keyframes splashIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes splashGlow{from{filter:drop-shadow(0 0 16px rgba(212,175,55,0.3))}to{filter:drop-shadow(0 0 40px rgba(212,175,55,0.7))}}
+@keyframes splashLoad{to{width:100%}}
+@keyframes particleFloat{
+  0%{opacity:0;transform:translateY(0) scale(0)}
+  20%{opacity:0.6}
+  100%{opacity:0;transform:translateY(-80px) scale(0.5)}
+}
+
+/* ── LAYOUT ────────────────────────────────────────── */
+#landing{display:block}
+#appShell{display:none;height:100vh;overflow:hidden}
+.app-grid{display:grid;grid-template-columns:var(--sidebar-w) 1fr;height:100vh}
+
+/* ── SIDEBAR ───────────────────────────────────────── */
+.sidebar{
+  background:var(--midnight);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  height:100vh;overflow:hidden;
+  position:relative;z-index:10;
+}
+.sidebar::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);
+}
+.sidebar-brand{
+  padding:1.5rem 1.5rem 1rem;
+  border-bottom:1px solid var(--border);
+  flex-shrink:0;
+}
+.brand-logo{display:flex;align-items:center;gap:0.75rem}
+.brand-icon{
+  width:36px;height:36px;border-radius:var(--r-sm);
+  background:linear-gradient(135deg,var(--emerald),var(--gold));
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  box-shadow:0 0 12px rgba(212,175,55,0.2);
+}
+.brand-name{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:1.4rem;font-weight:700;letter-spacing:-0.01em;
+  background:linear-gradient(135deg,var(--gold),var(--gold-light));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.brand-sub{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--ivory-muted);margin-top:1px}
+.sidebar-user{
+  padding:1rem 1.5rem;
+  border-bottom:1px solid var(--border);flex-shrink:0;
+}
+.user-card{
+  display:flex;align-items:center;gap:0.75rem;
+  padding:0.75rem;border-radius:var(--r-md);
+  background:var(--ivory-ghost);
+  border:1px solid var(--border);
+  cursor:pointer;transition:all 0.2s var(--ease);
+}
+.user-card:hover{background:var(--gold-glow);border-color:var(--border-strong)}
+.user-avatar{
+  width:36px;height:36px;border-radius:50%;
+  background:linear-gradient(135deg,var(--emerald),var(--gold));
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.9rem;font-weight:600;flex-shrink:0;
+  color:var(--ivory);
+}
+.user-info{flex:1;min-width:0}
+.user-name{font-size:0.82rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.user-level{display:flex;align-items:center;gap:0.3rem;margin-top:2px}
+.level-dot{width:6px;height:6px;border-radius:50%}
+.level-bronze .level-dot{background:#cd7f32}
+.level-prata .level-dot{background:#b0c4de}
+.level-ouro .level-dot{background:var(--gold)}
+.level-diamante .level-dot{background:#b9f2ff;box-shadow:0 0 6px #b9f2ff}
+.level-label{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--ivory-muted)}
+.sidebar-nav{flex:1;overflow-y:auto;padding:1rem 0.75rem}
+.nav-section{margin-bottom:1.5rem}
+.nav-section-label{
+  font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--ivory-muted);padding:0 0.75rem;margin-bottom:0.5rem;
+}
+.nav-item{
+  display:flex;align-items:center;gap:0.75rem;
+  padding:0.65rem 0.75rem;border-radius:var(--r-md);
+  cursor:pointer;transition:all 0.15s var(--ease);
+  position:relative;color:var(--ivory-muted);font-size:0.82rem;font-weight:500;
+  margin-bottom:2px;
+}
+.nav-item:hover{background:var(--ivory-ghost);color:var(--ivory)}
+.nav-item.active{
+  background:linear-gradient(135deg,rgba(11,93,59,0.5),rgba(212,175,55,0.08));
+  color:var(--gold);
+  border:1px solid var(--border);
+}
+.nav-item.active::before{
+  content:'';position:absolute;left:0;top:20%;bottom:20%;
+  width:2px;border-radius:2px;
+  background:linear-gradient(180deg,var(--gold),var(--gold-light));
+}
+.nav-icon{width:18px;height:18px;opacity:0.7;flex-shrink:0}
+.nav-item.active .nav-icon{opacity:1}
+.nav-badge{
+  margin-left:auto;min-width:18px;height:18px;
+  background:var(--danger);border-radius:9px;
+  font-size:0.6rem;font-weight:700;color:#fff;
+  display:flex;align-items:center;justify-content:center;padding:0 5px;
+}
+.sidebar-footer{
+  padding:1rem 1.5rem;border-top:1px solid var(--border);flex-shrink:0;
+}
+.btn-logout{
+  width:100%;padding:0.65rem;border-radius:var(--r-md);
+  background:transparent;border:1px solid var(--border);
+  color:var(--ivory-muted);font-size:0.8rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:0.5rem;
+  transition:all 0.2s var(--ease);
+}
+.btn-logout:hover{background:var(--danger-dim);border-color:var(--danger);color:var(--danger)}
+
+/* ── MAIN CONTENT ──────────────────────────────────── */
+.main{
+  overflow-y:auto;background:var(--midnight-deep);
+  display:flex;flex-direction:column;
+}
+.main-header{
+  position:sticky;top:0;z-index:50;
+  height:var(--header-h);
+  background:rgba(3,31,29,0.85);
+  backdrop-filter:var(--blur);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 2rem;flex-shrink:0;
+}
+.header-title{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:600}
+.header-actions{display:flex;align-items:center;gap:0.75rem}
+.btn-icon{
+  width:36px;height:36px;border-radius:var(--r-sm);
+  background:var(--ivory-ghost);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all 0.2s var(--ease);position:relative;
+}
+.btn-icon:hover{background:var(--gold-glow);border-color:var(--border-strong)}
+.btn-icon svg{width:16px;height:16px;color:var(--ivory-dim)}
+.notif-dot{
+  position:absolute;top:6px;right:6px;
+  width:7px;height:7px;border-radius:50%;
+  background:var(--danger);border:1.5px solid var(--midnight-deep);
+  display:none;
+}
+.content{padding:1.75rem 2rem;flex:1}
+
+/* ── SCREENS ───────────────────────────────────────── */
+.screen{display:none;animation:fadeInUp 0.3s var(--ease) both}
+.screen.active{display:block}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* ── CARDS ─────────────────────────────────────────── */
+.card{
+  background:var(--glass);
+  border:1px solid var(--border);
+  border-radius:var(--r-lg);
+  backdrop-filter:var(--blur);
+  padding:1.5rem;
+  position:relative;overflow:hidden;
+}
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--border-strong),transparent);
+}
+.card-premium{
+  background:linear-gradient(135deg,rgba(11,93,59,0.3),rgba(212,175,55,0.06));
+  border-color:var(--border-strong);
+}
+.card-gold{
+  background:linear-gradient(135deg,rgba(212,175,55,0.12),rgba(212,175,55,0.04));
+  border-color:rgba(212,175,55,0.3);
+}
+.card-danger{background:var(--danger-dim);border-color:rgba(224,85,85,0.2)}
+.card-sm{padding:1rem 1.25rem}
+
+/* ── STAT CARDS ────────────────────────────────────── */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:1.5rem}
+.stat-card{
+  background:var(--glass);border:1px solid var(--border);
+  border-radius:var(--r-lg);padding:1.25rem 1.5rem;
+  position:relative;overflow:hidden;cursor:default;
+  transition:transform 0.2s var(--ease),border-color 0.2s;
+}
+.stat-card::after{
+  content:'';position:absolute;top:0;right:0;
+  width:80px;height:80px;border-radius:50%;
+  background:var(--glow-color,var(--emerald-glow));
+  filter:blur(30px);opacity:0.5;
+  transition:opacity 0.3s;
+}
+.stat-card:hover{transform:translateY(-2px);border-color:var(--border-strong)}
+.stat-card:hover::after{opacity:0.9}
+.stat-card.gold{--glow-color:rgba(212,175,55,0.2)}
+.stat-card.green{--glow-color:rgba(46,204,113,0.15)}
+.stat-card.blue{--glow-color:rgba(59,130,246,0.15)}
+.stat-label{font-size:0.72rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--ivory-muted);margin-bottom:0.5rem}
+.stat-value{font-family:'Space Grotesk',sans-serif;font-size:1.7rem;font-weight:700;letter-spacing:-0.02em;line-height:1.1}
+.stat-value.gold{
+  background:linear-gradient(135deg,var(--gold),var(--gold-light));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.stat-value.green{color:var(--success)}
+.stat-sub{font-size:0.72rem;color:var(--ivory-muted);margin-top:0.4rem;display:flex;align-items:center;gap:0.3rem}
+.stat-trend{font-size:0.7rem;padding:2px 6px;border-radius:4px;font-weight:600}
+.stat-trend.up{background:var(--success-dim);color:var(--success)}
+.stat-trend.down{background:var(--danger-dim);color:var(--danger)}
+
+/* ── GRID LAYOUTS ──────────────────────────────────── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
+.grid-main{display:grid;grid-template-columns:2fr 1fr;gap:1rem}
+
+/* ── CHARTS ─────────────────────────────────────────── */
+.chart-card{position:relative}
+.chart-header{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  margin-bottom:1.25rem;
+}
+.chart-title{font-size:0.9rem;font-weight:600}
+.chart-sub{font-size:0.72rem;color:var(--ivory-muted);margin-top:2px}
+.chart-legend{display:flex;gap:1rem;flex-wrap:wrap;margin-top:0.75rem}
+.legend-item{display:flex;align-items:center;gap:0.4rem;font-size:0.72rem;color:var(--ivory-muted)}
+.legend-dot{width:8px;height:8px;border-radius:2px}
+.chart-wrap{position:relative;height:180px}
+canvas{border-radius:var(--r-md)}
+
+/* ── SECTION HEADERS ───────────────────────────────── */
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:600}
+.section-sub{font-size:0.75rem;color:var(--ivory-muted);margin-top:2px}
+.section-action{font-size:0.75rem;color:var(--gold);cursor:pointer;font-weight:500;transition:opacity 0.2s}
+.section-action:hover{opacity:0.7}
+
+/* ── ACTIVITY FEED ─────────────────────────────────── */
+.activity-list{display:flex;flex-direction:column;gap:0}
+.activity-item{
+  display:flex;align-items:center;gap:1rem;
+  padding:0.85rem 0;border-bottom:1px solid rgba(212,175,55,0.06);
+  transition:background 0.15s;border-radius:var(--r-sm);
+}
+.activity-item:last-child{border-bottom:none}
+.activity-item:hover{background:var(--ivory-ghost);padding-left:0.5rem;padding-right:0.5rem}
+.activity-icon{
+  width:36px;height:36px;border-radius:var(--r-md);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;flex-shrink:0;
+}
+.activity-icon.green{background:var(--success-dim)}
+.activity-icon.gold{background:rgba(212,175,55,0.1)}
+.activity-icon.blue{background:rgba(59,130,246,0.1)}
+.activity-icon.red{background:var(--danger-dim)}
+.activity-info{flex:1;min-width:0}
+.activity-title{font-size:0.82rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.activity-time{font-size:0.7rem;color:var(--ivory-muted);margin-top:2px}
+.activity-amount{font-size:0.85rem;font-weight:700;text-align:right;flex-shrink:0}
+.activity-amount.positive{color:var(--success)}
+.activity-amount.negative{color:var(--danger)}
+.activity-status{font-size:0.65rem;margin-top:2px;text-align:right}
+.badge{
+  display:inline-flex;align-items:center;padding:2px 8px;
+  border-radius:20px;font-size:0.65rem;font-weight:600;
+  letter-spacing:0.05em;text-transform:uppercase;
+}
+.badge.pending{background:rgba(243,156,18,0.15);color:var(--warning)}
+.badge.confirmed{background:var(--success-dim);color:var(--success)}
+.badge.rejected{background:var(--danger-dim);color:var(--danger)}
+.badge.transit{background:rgba(59,130,246,0.15);color:#60a5fa}
+
+/* ── FORMS ─────────────────────────────────────────── */
+.form-group{margin-bottom:1rem}
+.form-label{
+  display:block;font-size:0.75rem;font-weight:600;
+  letter-spacing:0.05em;text-transform:uppercase;
+  color:var(--ivory-muted);margin-bottom:0.5rem;
+}
+.form-input{
+  width:100%;padding:0.8rem 1rem;
+  background:var(--ivory-ghost);
+  border:1px solid var(--border);
+  border-radius:var(--r-md);
+  color:var(--ivory);font-size:0.88rem;font-family:'Inter',sans-serif;
+  transition:all 0.2s var(--ease);outline:none;
+}
+.form-input:focus{
+  border-color:var(--gold);
+  background:rgba(212,175,55,0.05);
+  box-shadow:0 0 0 3px rgba(212,175,55,0.08);
+}
+.form-input::placeholder{color:var(--ivory-muted)}
+.form-hint{font-size:0.72rem;color:var(--ivory-muted);margin-top:0.4rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+select.form-input{cursor:pointer}
+select.form-input option{background:var(--midnight);color:var(--ivory)}
+
+/* ── BUTTONS ───────────────────────────────────────── */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;
+  padding:0.75rem 1.5rem;border-radius:var(--r-md);
+  font-size:0.85rem;font-weight:600;cursor:pointer;
+  transition:all 0.2s var(--ease);border:none;outline:none;
+  position:relative;overflow:hidden;
+  font-family:'Inter',sans-serif;
+}
+.btn::after{
+  content:'';position:absolute;inset:0;
+  background:rgba(255,255,255,0.08);
+  opacity:0;transition:opacity 0.15s;
+}
+.btn:hover::after{opacity:1}
+.btn:active{transform:scale(0.97)}
+.btn-primary{
+  background:linear-gradient(135deg,var(--emerald),var(--emerald-bright));
+  color:var(--ivory);
+  box-shadow:0 4px 16px rgba(11,93,59,0.4);
+}
+.btn-primary:hover{box-shadow:0 6px 24px rgba(11,93,59,0.6)}
+.btn-gold{
+  background:linear-gradient(135deg,var(--gold),var(--gold-light));
+  color:var(--midnight-deep);
+  box-shadow:0 4px 16px rgba(212,175,55,0.3);
+}
+.btn-gold:hover{box-shadow:0 6px 24px rgba(212,175,55,0.5)}
+.btn-outline{
+  background:transparent;border:1px solid var(--border);
+  color:var(--ivory-dim);
+}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+.btn-danger{background:var(--danger);color:#fff}
+.btn-full{width:100%}
+.btn-sm{padding:0.5rem 1rem;font-size:0.78rem}
+.btn-lg{padding:1rem 2rem;font-size:0.95rem;border-radius:var(--r-lg)}
+
+/* ── INVESTMENT PLANS ──────────────────────────────── */
+.plans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.plan-card{
+  border-radius:var(--r-xl);padding:1.75rem;
+  border:1px solid var(--border);
+  position:relative;overflow:hidden;cursor:pointer;
+  transition:all 0.25s var(--ease));
+  background:var(--glass);
+}
+.plan-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--plan-color,var(--emerald));
+}
+.plan-card:hover{transform:translateY(-8px) scale(1.02);border-color:var(--border-strong);box-shadow:var(--shadow-gold)}
+.plan-card.starter{--plan-color:var(--emerald-bright)}
+.plan-card.gold{--plan-color:var(--gold);background:linear-gradient(135deg,rgba(212,175,55,0.08),var(--glass))}
+.plan-card.elite{--plan-color:#b9f2ff;background:linear-gradient(135deg,rgba(185,242,255,0.06),var(--glass))}
+.plan-badge{
+  display:inline-block;font-size:0.6rem;font-weight:700;
+  letter-spacing:0.15em;text-transform:uppercase;
+  padding:3px 10px;border-radius:20px;margin-bottom:1rem;
+}
+.plan-card.starter .plan-badge{background:rgba(11,93,59,0.3);color:var(--emerald-bright)}
+.plan-card.gold .plan-badge{background:rgba(212,175,55,0.15);color:var(--gold)}
+.plan-card.elite .plan-badge{background:rgba(185,242,255,0.1);color:#b9f2ff}
+.plan-apy{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:3rem;font-weight:700;line-height:1;
+  letter-spacing:-0.03em;margin-bottom:0.25rem;
+}
+.plan-card.starter .plan-apy{color:var(--emerald-bright)}
+.plan-card.gold .plan-apy{
+  background:linear-gradient(135deg,var(--gold),var(--gold-light));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.plan-card.elite .plan-apy{color:#b9f2ff}
+.plan-apy-label{font-size:0.72rem;color:var(--ivory-muted);margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.12em}
+.plan-yield-hint{
+  font-size:0.78rem;color:var(--gold);font-weight:600;
+  padding:0.5rem 0.75rem;margin-bottom:1rem;
+  background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.2);
+  border-radius:var(--r-md,8px);line-height:1.4;
+}
+.plan-card.starter .plan-yield-hint{color:var(--emerald-bright);background:rgba(11,93,59,0.15);border-color:rgba(62,207,124,0.25)}
+.plan-card.elite .plan-yield-hint{color:#b9f2ff;background:rgba(185,242,255,0.08);border-color:rgba(185,242,255,0.2)}
+.plans-landing .plan-card,.plans-grid .plan-card{animation:planFadeIn 0.7s var(--ease) both}
+.plans-landing .plan-card:nth-child(2),.plans-grid .plan-card:nth-child(2){animation-delay:0.12s}
+.plans-landing .plan-card:nth-child(3),.plans-grid .plan-card:nth-child(3){animation-delay:0.24s}
+@keyframes planFadeIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.screen.active{animation:screenIn 0.4s var(--ease)}
+@keyframes screenIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.nav-item{transition:transform 0.3s var(--ease),background 0.25s ease}
+.nav-item:hover{transform:translateX(4px)}
+.hero-card-demo{animation:heroFloat 6s ease-in-out infinite}
+@keyframes heroFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+.plan-name{font-size:1.1rem;font-weight:700;margin-bottom:0.35rem}
+.plan-min{font-size:0.75rem;color:var(--ivory-muted);margin-bottom:1.5rem}
+.plan-features{list-style:none;display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1.5rem}
+.plan-features li{font-size:0.78rem;display:flex;align-items:center;gap:0.4rem;color:var(--ivory-dim)}
+.plan-features li::before{content:'✓';font-weight:700;font-size:0.7rem}
+.plan-card.starter .plan-features li::before{color:var(--emerald-bright)}
+.plan-card.gold .plan-features li::before{color:var(--gold)}
+.plan-card.elite .plan-features li::before{color:#b9f2ff}
+.plan-popular{
+  position:absolute;top:1rem;right:1rem;
+  font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+  background:linear-gradient(135deg,var(--gold),var(--gold-light));
+  color:var(--midnight-deep);padding:3px 8px;border-radius:20px;
+}
+
+/* ── ACTIVE INVESTMENTS ────────────────────────────── */
+.investment-card{
+  background:var(--glass);border:1px solid var(--border);
+  border-radius:var(--r-lg);padding:1.25rem;
+  display:flex;flex-direction:column;gap:1rem;
+  transition:border-color 0.2s;
+}
+.investment-card:hover{border-color:var(--border-strong)}
+.inv-header{display:flex;align-items:center;justify-content:space-between}
+.inv-plan{
+  font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+  padding:3px 10px;border-radius:20px;
+}
+.inv-plan.starter{background:rgba(11,93,59,0.3);color:var(--emerald-bright)}
+.inv-plan.gold{background:rgba(212,175,55,0.15);color:var(--gold)}
+.inv-plan.elite{background:rgba(185,242,255,0.1);color:#b9f2ff}
+.inv-capital{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:700}
+.inv-profit{
+  display:flex;align-items:center;gap:0.3rem;
+  font-size:0.9rem;font-weight:600;color:var(--success);
+}
+.inv-progress{
+  height:4px;background:var(--ivory-ghost);border-radius:2px;overflow:hidden;
+}
+.inv-progress-bar{
+  height:100%;border-radius:2px;
+  background:linear-gradient(90deg,var(--emerald-bright),var(--gold));
+  transition:width 0.6s var(--ease);
+}
+.inv-meta{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem}
+.inv-meta-item{font-size:0.72rem;color:var(--ivory-muted)}
+.inv-meta-value{font-weight:600;color:var(--ivory);font-size:0.8rem}
+
+/* ── CREDIT SCORE ──────────────────────────────────── */
+.score-ring{
+  position:relative;width:120px;height:120px;
+  flex-shrink:0;
+}
+.score-ring svg{transform:rotate(-90deg)}
+.score-ring-track{fill:none;stroke:var(--ivory-ghost);stroke-width:8}
+.score-ring-fill{
+  fill:none;stroke-width:8;stroke-linecap:round;
+  stroke-dasharray:314;stroke-dashoffset:314;
+  transition:stroke-dashoffset 1s var(--ease);
+}
+.score-ring-val{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+.score-num{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:700;line-height:1}
+.score-label{font-size:0.6rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--ivory-muted)}
+
+/* ── DEPOSIT FLOW ──────────────────────────────────── */
+.deposit-steps{display:flex;flex-direction:column;gap:1rem}
+.deposit-step{
+  display:flex;gap:1rem;padding:1.25rem;
+  background:var(--ivory-ghost);border:1px solid var(--border);
+  border-radius:var(--r-lg);
+}
+.step-num{
+  width:28px;height:28px;border-radius:50%;
+  background:linear-gradient(135deg,var(--emerald),var(--gold));
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.75rem;font-weight:700;flex-shrink:0;color:var(--ivory);
+}
+.step-content{flex:1}
+.step-title{font-size:0.85rem;font-weight:600;margin-bottom:0.25rem}
+.step-desc{font-size:0.78rem;color:var(--ivory-muted);line-height:1.4}
+.emola-number{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:1.5rem;font-weight:700;letter-spacing:0.05em;
+  color:var(--gold);padding:0.75rem 1rem;
+  background:rgba(212,175,55,0.08);
+  border:1px solid var(--border-strong);
+  border-radius:var(--r-md);display:inline-block;
+  margin:0.5rem 0;cursor:pointer;transition:all 0.2s;
+}
+.emola-number:hover{background:rgba(212,175,55,0.15);transform:scale(1.02)}
+.min-badge{
+  display:inline-flex;align-items:center;gap:0.3rem;
+  padding:3px 10px;border-radius:20px;font-size:0.7rem;font-weight:600;
+  background:rgba(212,175,55,0.1);color:var(--gold);
+}
+
+/* ── FILE UPLOAD ───────────────────────────────────── */
+.file-drop{
+  border:2px dashed var(--border);border-radius:var(--r-lg);
+  padding:2rem;text-align:center;cursor:pointer;
+  transition:all 0.2s var(--ease);
+}
+.file-drop:hover,.file-drop.drag{
+  border-color:var(--gold);background:rgba(212,175,55,0.04);
+}
+.file-drop-icon{font-size:2rem;margin-bottom:0.5rem;display:block}
+.file-drop-text{font-size:0.82rem;color:var(--ivory-muted)}
+.file-drop-text strong{color:var(--gold)}
+.file-preview{
+  display:flex;align-items:center;gap:0.75rem;
+  padding:0.75rem;background:var(--ivory-ghost);
+  border-radius:var(--r-md);border:1px solid var(--border);margin-top:0.5rem;
+}
+.file-preview-name{font-size:0.78rem;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* ── NOTIFICATIONS ─────────────────────────────────── */
+.notif-list{display:flex;flex-direction:column;gap:0.5rem}
+.notif-item{
+  display:flex;gap:0.75rem;padding:1rem;
+  border-radius:var(--r-md);border:1px solid var(--border);
+  background:var(--ivory-ghost);transition:all 0.2s;
+  cursor:default;
+}
+.notif-item.unread{
+  background:rgba(212,175,55,0.04);
+  border-color:rgba(212,175,55,0.2);
+}
+.notif-icon{
+  width:36px;height:36px;border-radius:var(--r-sm);
+  display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;
+}
+.notif-body{flex:1}
+.notif-title{font-size:0.82rem;font-weight:600;margin-bottom:3px}
+.notif-msg{font-size:0.78rem;color:var(--ivory-dim);line-height:1.4}
+.notif-time{font-size:0.68rem;color:var(--ivory-muted);margin-top:4px}
+
+/* ── ADMIN ─────────────────────────────────────────── */
+.admin-tabs{display:flex;gap:0.25rem;margin-bottom:1.5rem;background:var(--ivory-ghost);padding:4px;border-radius:var(--r-md);width:fit-content}
+.admin-tab{
+  padding:0.5rem 1rem;border-radius:var(--r-sm);cursor:pointer;
+  font-size:0.8rem;font-weight:500;color:var(--ivory-muted);
+  transition:all 0.2s;white-space:nowrap;
+}
+.admin-tab.active{background:var(--glass);color:var(--gold);border:1px solid var(--border)}
+.admin-table{width:100%;border-collapse:collapse;font-size:0.8rem}
+.admin-table th{
+  text-align:left;padding:0.65rem 1rem;
+  font-size:0.67rem;text-transform:uppercase;letter-spacing:0.1em;
+  color:var(--ivory-muted);font-weight:600;
+  border-bottom:1px solid var(--border);
+}
+.admin-table td{
+  padding:0.75rem 1rem;border-bottom:1px solid rgba(212,175,55,0.05);
+  vertical-align:middle;
+}
+.admin-table tr:hover td{background:var(--ivory-ghost)}
+.btn-approve{
+  padding:4px 10px;border-radius:var(--r-sm);font-size:0.72rem;font-weight:600;
+  border:1px solid var(--emerald-bright);color:var(--emerald-bright);
+  background:transparent;cursor:pointer;transition:all 0.15s;
+}
+.btn-approve:hover{background:var(--success-dim)}
+.btn-reject{
+  padding:4px 10px;border-radius:var(--r-sm);font-size:0.72rem;font-weight:600;
+  border:1px solid var(--danger);color:var(--danger);
+  background:transparent;cursor:pointer;transition:all 0.15s;margin-left:4px;
+}
+.btn-reject:hover{background:var(--danger-dim)}
+
+/* ── TOAST ─────────────────────────────────────────── */
+#toastContainer{
+  position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;
+  display:flex;flex-direction:column;gap:0.5rem;
+}
+.toast{
+  display:flex;align-items:center;gap:0.75rem;
+  padding:0.85rem 1.25rem;border-radius:var(--r-md);
+  background:rgba(10,40,37,0.95);backdrop-filter:var(--blur);
+  border:1px solid var(--border-strong);
+  font-size:0.82rem;min-width:260px;max-width:380px;
+  box-shadow:var(--shadow-lg),0 0 0 0.5px rgba(212,175,55,0.1);
+  animation:toastIn 0.35s var(--ease-bounce) both;
+}
+.toast.success{border-color:rgba(46,204,113,0.3)}
+.toast.error{border-color:rgba(224,85,85,0.3)}
+@keyframes toastIn{from{opacity:0;transform:translateX(20px) scale(0.95)}to{opacity:1;transform:none}}
+
+/* ── MODAL ─────────────────────────────────────────── */
+.modal-overlay{
+  position:fixed;inset:0;z-index:999;
+  background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;visibility:hidden;transition:all 0.3s;
+  padding:1rem;
+}
+.modal-overlay.active{opacity:1;visibility:visible}
+.modal{
+  background:var(--midnight);border:1px solid var(--border-strong);
+  border-radius:var(--r-xl);padding:2rem;
+  width:100%;max-width:500px;
+  transform:scale(0.95) translateY(10px);
+  transition:transform 0.3s var(--ease));
+  max-height:90vh;overflow-y:auto;
+}
+.modal-overlay.active .modal{transform:none}
+.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+.modal-title{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:600}
+.modal-close{
+  width:32px;height:32px;border-radius:var(--r-sm);
+  background:var(--ivory-ghost);border:none;
+  color:var(--ivory-muted);cursor:pointer;font-size:1rem;
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.15s;
+}
+.modal-close:hover{background:var(--danger-dim);color:var(--danger)}
+
+/* ── LANDING ───────────────────────────────────────── */
+#landing{min-height:100vh;overflow-x:hidden}
+.land-nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.25rem 4rem;
+  background:rgba(3,31,29,0);
+  border-bottom:1px solid transparent;
+  transition:all 0.3s;
+}
+.land-nav.scrolled{
+  background:rgba(3,31,29,0.9);backdrop-filter:var(--blur);
+  border-bottom-color:var(--border);
+}
+.land-nav-brand{display:flex;align-items:center;gap:0.75rem}
+.land-nav-brand .brand-name{
+  font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:700;
+  background:linear-gradient(135deg,var(--gold),var(--gold-light));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.land-nav-links{display:flex;align-items:center;gap:2.5rem}
+.land-nav-link{
+  font-size:0.85rem;font-weight:500;color:var(--ivory-muted);
+  cursor:pointer;transition:color 0.2s;
+}
+.land-nav-link:hover{color:var(--ivory)}
+.land-nav-actions{display:flex;gap:0.75rem}
+
+/* HERO */
+.land-hero{
+  min-height:100vh;display:flex;align-items:center;
+  position:relative;overflow:hidden;
+  padding:8rem 4rem 6rem;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 60% at 30% 50%,rgba(11,93,59,0.25) 0%,transparent 60%),
+             radial-gradient(ellipse 50% 40% at 70% 30%,rgba(212,175,55,0.08) 0%,transparent 60%),
+             radial-gradient(ellipse at 100% 100%,rgba(11,93,59,0.1) 0%,transparent 50%);
+}
+.hero-grid{
+  position:absolute;inset:0;opacity:0.04;
+  background-image:linear-gradient(rgba(212,175,55,0.5) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(212,175,55,0.5) 1px,transparent 1px);
+  background-size:60px 60px;
+}
+.hero-content{position:relative;max-width:620px}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:1.5rem;padding:5px 12px;
+  border:1px solid var(--gold-dim);border-radius:20px;
+  background:rgba(212,175,55,0.05);
+}
+.hero-h1{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(2.5rem,5vw,4rem);font-weight:700;
+  line-height:1.08;letter-spacing:-0.03em;
+  margin-bottom:1.5rem;
+}
+.hero-h1 .accent{
+  background:linear-gradient(135deg,var(--gold) 0%,var(--gold-light) 50%,#fff 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero-sub{
+  font-size:1rem;line-height:1.65;color:var(--ivory-dim);
+  margin-bottom:2.5rem;max-width:480px;
+}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:3rem}
+.hero-stats{
+  display:flex;gap:2.5rem;flex-wrap:wrap;
+  padding-top:2rem;border-top:1px solid var(--border);
+}
+.hero-stat-val{
+  font-family:'Space Grotesk',sans-serif;font-size:1.6rem;font-weight:700;
+  background:linear-gradient(135deg,var(--gold),var(--ivory));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero-stat-label{font-size:0.72rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--ivory-muted);margin-top:2px}
+.hero-visual{
+  position:absolute;right:4rem;top:50%;transform:translateY(-50%);
+  width:420px;
+}
+@media(max-width:1024px){.hero-visual{display:none}}
+.hero-card-demo{
+  background:var(--glass);backdrop-filter:var(--blur-heavy);
+  border:1px solid var(--border-strong);border-radius:var(--r-xl);
+  padding:1.75rem;margin-bottom:1rem;
+  box-shadow:var(--shadow-lg),var(--shadow-gold);
+}
+
+/* FEATURES */
+.land-section{padding:6rem 4rem}
+.land-section-label{
+  font-size:0.7rem;letter-spacing:0.25em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:0.75rem;
+}
+.land-section-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:2.2rem;font-weight:700;letter-spacing:-0.02em;
+  margin-bottom:1rem;max-width:500px;
+}
+.features-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;margin-top:3rem;
+}
+.feature-card{
+  background:var(--glass);border:1px solid var(--border);
+  border-radius:var(--r-xl);padding:2rem;
+  transition:all 0.25s var(--ease);
+  position:relative;overflow:hidden;
+}
+.feature-card::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:var(--card-accent,var(--emerald));
+  transform:scaleX(0);transform-origin:left;transition:transform 0.3s;
+}
+.feature-card:hover{transform:translateY(-4px);border-color:var(--border-strong);box-shadow:var(--shadow-gold)}
+.feature-card:hover::after{transform:scaleX(1)}
+.feature-icon{
+  width:48px;height:48px;border-radius:var(--r-lg);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;margin-bottom:1.25rem;
+  background:var(--icon-bg,rgba(11,93,59,0.2));
+}
+.feature-title{font-size:1rem;font-weight:700;margin-bottom:0.5rem}
+.feature-desc{font-size:0.82rem;color:var(--ivory-dim);line-height:1.6}
+
+/* PLANS LANDING */
+.plans-landing{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
+
+/* AUTH */
+.land-auth{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  padding:6rem 2rem;position:relative;
+}
+.auth-split{
+  display:grid;grid-template-columns:1fr 1fr;
+  max-width:960px;width:100%;
+  background:var(--glass);border:1px solid var(--border-strong);
+  border-radius:var(--r-2xl);overflow:hidden;backdrop-filter:var(--blur);
+}
+.auth-left{
+  padding:3rem;background:linear-gradient(145deg,rgba(11,93,59,0.4),rgba(212,175,55,0.05));
+  display:flex;flex-direction:column;justify-content:center;
+}
+.auth-right{padding:3rem;display:flex;flex-direction:column;justify-content:center}
+.auth-logo{display:flex;align-items:center;gap:0.75rem;margin-bottom:2rem}
+.auth-heading{font-family:'Space Grotesk',sans-serif;font-size:1.8rem;font-weight:700;margin-bottom:0.75rem;letter-spacing:-0.02em}
+.auth-sub{font-size:0.85rem;color:var(--ivory-muted);line-height:1.5;margin-bottom:2rem}
+.auth-tabs{display:flex;margin-bottom:2rem;background:var(--ivory-ghost);padding:4px;border-radius:var(--r-md)}
+.auth-tab{
+  flex:1;padding:0.6rem;text-align:center;cursor:pointer;
+  border-radius:var(--r-sm);font-size:0.82rem;font-weight:500;
+  color:var(--ivory-muted);transition:all 0.2s;
+}
+.auth-tab.active{background:var(--glass);color:var(--gold);border:1px solid var(--border)}
+.auth-form{display:none}
+.auth-form.active{display:block}
+
+/* ── MOBILE NAV ────────────────────────────────────── */
+.mobile-nav{display:none}
+.mobile-header{display:none}
+
+/* ── RESPONSIVE ────────────────────────────────────── */
+@media(max-width:768px){
+  .app-grid{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .mobile-header{
+    display:flex;align-items:center;justify-content:space-between;
+    height:56px;padding:0 1rem;
+    background:var(--midnight);border-bottom:1px solid var(--border);
+    position:sticky;top:0;z-index:100;flex-shrink:0;
+  }
+  .mobile-header-brand .brand-name{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:700;
+    background:linear-gradient(135deg,var(--gold),var(--gold-light));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .mobile-nav{
+    display:flex;position:fixed;bottom:0;left:0;right:0;z-index:100;
+    background:rgba(3,31,29,0.95);backdrop-filter:var(--blur-heavy);
+    border-top:1px solid var(--border);
+    padding:0.5rem 0 calc(0.5rem + env(safe-area-inset-bottom));
+  }
+  .mobile-nav-item{
+    flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:3px;padding:0.4rem;cursor:pointer;transition:all 0.15s;
+    color:var(--ivory-muted);font-size:0.6rem;font-weight:500;
+  }
+  .mobile-nav-item.active{color:var(--gold)}
+  .mobile-nav-item svg{width:20px;height:20px}
+  .content{padding:1rem;padding-bottom:5rem}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .plans-grid,.grid-2,.grid-main,.grid-3{grid-template-columns:1fr}
+  .plans-landing{grid-template-columns:1fr}
+  .land-nav{padding:1rem 1.5rem}
+  .land-nav-links{display:none}
+  .land-hero{padding:6rem 1.5rem 4rem}
+  .land-section{padding:4rem 1.5rem}
+  .auth-split{grid-template-columns:1fr}
+  .auth-left{display:none}
+  .form-row{grid-template-columns:1fr}
+  .hero-stats{gap:1.5rem}
+  .admin-tabs{flex-wrap:wrap}
+}
+@media(max-width:480px){
+  .stats-grid{grid-template-columns:1fr}
+}
+
+/* ── EMPTY STATE ───────────────────────────────────── */
+.empty-state{
+  text-align:center;padding:3rem;
+  color:var(--ivory-muted);
+}
+.empty-state-icon{font-size:2.5rem;margin-bottom:1rem;opacity:0.5}
+.empty-state-title{font-size:0.9rem;font-weight:600;margin-bottom:0.5rem;color:var(--ivory-dim)}
+.empty-state-desc{font-size:0.78rem;line-height:1.5}
+
+/* ── LOADING SKELETON ──────────────────────────────── */
+.skeleton{
+  background:linear-gradient(90deg,var(--ivory-ghost) 25%,rgba(248,245,238,0.06) 50%,var(--ivory-ghost) 75%);
+  background-size:200% 100%;
+  animation:shimmer 1.5s infinite;
+  border-radius:var(--r-md);
+}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.skel-text{height:14px;margin:6px 0}
+.skel-title{height:20px;margin:8px 0;width:60%}
+
+/* ── PROFILE ───────────────────────────────────────── */
+.profile-header{
+  display:flex;align-items:flex-start;gap:2rem;
+  padding:2rem;background:var(--glass);border:1px solid var(--border-strong);
+  border-radius:var(--r-xl);margin-bottom:1.5rem;
+  background:linear-gradient(135deg,rgba(11,93,59,0.2),rgba(212,175,55,0.05));
+}
+.profile-avatar-lg{
+  width:80px;height:80px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--emerald),var(--gold));
+  display:flex;align-items:center;justify-content:center;
+  font-size:2rem;font-weight:700;color:var(--ivory);
+  border:2px solid var(--border-strong);
+  box-shadow:0 0 24px rgba(212,175,55,0.2);
+}
+.profile-info{flex:1}
+.profile-name{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:700}
+.profile-email{font-size:0.82rem;color:var(--ivory-muted);margin-top:4px}
+.profile-badges{display:flex;gap:0.5rem;margin-top:0.75rem;flex-wrap:wrap}
+.profile-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:3px 10px;border-radius:20px;font-size:0.68rem;font-weight:600;
+}
+
+/* ── COMMISSIONIST ─────────────────────────────────── */
+.ref-code-box{
+  font-family:'Space Grotesk',sans-serif;font-size:1.6rem;font-weight:700;
+  letter-spacing:0.1em;text-align:center;
+  padding:1rem;background:rgba(212,175,55,0.08);
+  border:2px dashed var(--gold-dim);border-radius:var(--r-lg);
+  color:var(--gold);cursor:pointer;transition:all 0.2s;
+}
+.ref-code-box:hover{background:rgba(212,175,55,0.15)}
+
+/* ── MICRO CREDIT ──────────────────────────────────── */
+.credit-limit-display{
+  text-align:center;padding:2rem;
+  background:linear-gradient(135deg,rgba(212,175,55,0.1),rgba(212,175,55,0.03));
+  border:1px solid rgba(212,175,55,0.2);border-radius:var(--r-xl);
+  margin-bottom:1.5rem;
+}
+.credit-limit-value{
+  font-family:'Space Grotesk',sans-serif;font-size:3rem;font-weight:700;
+  background:linear-gradient(135deg,var(--gold),var(--gold-light));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  line-height:1;margin-bottom:0.25rem;
+}
+.credit-limit-label{font-size:0.8rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--ivory-muted)}
+
+/* ── RANKING ───────────────────────────────────────── */
+.rank-item{
+  display:flex;align-items:center;gap:1rem;
+  padding:0.85rem 1rem;border-radius:var(--r-md);
+  border:1px solid var(--border);background:var(--ivory-ghost);
+  transition:all 0.15s;
+}
+.rank-item:hover{border-color:var(--border-strong)}
+.rank-position{
+  width:28px;text-align:center;font-family:'Space Grotesk',sans-serif;
+  font-weight:700;font-size:0.9rem;color:var(--ivory-muted);flex-shrink:0;
+}
+.rank-position.top1{color:var(--gold)}
+.rank-position.top2{color:#b0c4de}
+.rank-position.top3{color:#cd7f32}
+.rank-avatar{
+  width:36px;height:36px;border-radius:50%;
+  background:linear-gradient(135deg,var(--emerald),var(--gold));
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.8rem;font-weight:700;flex-shrink:0;
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════
+     SPLASH SCREEN
+════════════════════════════════════════════════════ -->
+<div id="splash">
+  <div class="splash-particles" id="splashParticles"></div>
+  <div class="splash-logo">
+    <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+      <rect width="52" height="52" rx="12" fill="url(#sg1)"/>
+      <path d="M14 34 L20 18 L26 28 L32 18 L38 34" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <circle cx="26" cy="18" r="3" fill="#D4AF37"/>
+      <defs>
+        <linearGradient id="sg1" x1="0" y1="0" x2="52" y2="52">
+          <stop offset="0%" stop-color="#0B5D3B"/>
+          <stop offset="100%" stop-color="#052E2B"/>
+        </linearGradient>
+      </defs>
+    </svg>
+    <span class="splash-wordmark">ANURA</span>
+  </div>
+  <div class="splash-tagline">Plataforma Financeira Premium</div>
+  <div class="splash-bar"><div class="splash-progress"></div></div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     LANDING PAGE
+════════════════════════════════════════════════════ -->
+<div id="landing">
+  <!-- NAV -->
+  <nav class="land-nav" id="landNav">
+    <div class="land-nav-brand">
+      <div class="brand-icon">
+        <svg width="18" height="18" viewBox="0 0 52 52" fill="none">
+          <path d="M14 34 L20 18 L26 28 L32 18 L38 34" stroke="#D4AF37" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <circle cx="26" cy="18" r="3.5" fill="#D4AF37"/>
+        </svg>
+      </div>
+      <span class="brand-name">ANURA</span>
+    </div>
+    <div class="land-nav-links">
+      <span class="land-nav-link" onclick="scrollToSection('features')">Serviços</span>
+      <span class="land-nav-link" onclick="scrollToSection('planos')">Planos</span>
+      <span class="land-nav-link" onclick="scrollToSection('credito')">Crédito</span>
+    </div>
+    <div class="land-nav-actions">
+      <button class="btn btn-outline btn-sm" onclick="showLandingAuth('login')">Entrar</button>
+      <button class="btn btn-gold btn-sm" onclick="showLandingAuth('register')">Começar</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="land-hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span>🌍</span> Fintech Premium · Moçambique
+      </div>
+      <h1 class="hero-h1">
+        O seu dinheiro<br>a trabalhar<br><span class="accent">para si.</span>
+      </h1>
+      <p class="hero-sub">
+        Invista, poupança e aceda ao microcrédito numa plataforma de nível internacional — concebida para Moçambique.
+      </p>
+      <div class="hero-actions">
+        <button class="btn btn-gold btn-lg" onclick="showLandingAuth('register')">
+          Criar conta gratuita
+        </button>
+        <button class="btn btn-outline btn-lg" onclick="scrollToSection('planos')">
+          Ver planos
+        </button>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-val" id="heroCount1">0</div>
+          <div class="hero-stat-label">Investidores</div>
+        </div>
+        <div>
+          <div class="hero-stat-val">24%</div>
+          <div class="hero-stat-label">ao mês · Elite</div>
+        </div>
+        <div>
+          <div class="hero-stat-val">e-Mola</div>
+          <div class="hero-stat-label">Pagamentos</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card-demo">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem">
+          <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--ivory-muted)">Saldo Total</div>
+          <div class="badge confirmed">● Ativo</div>
+        </div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:2.4rem;font-weight:700;margin-bottom:0.25rem;background:linear-gradient(135deg,var(--gold),var(--ivory));-webkit-background-clip:text;-webkit-text-fill-color:transparent">MT 48.250</div>
+        <div style="font-size:0.78rem;color:var(--ivory-muted);margin-bottom:1.5rem">+MT 1.932 este mês</div>
+        <div style="height:64px;position:relative;overflow:hidden">
+          <svg viewBox="0 0 300 64" style="width:100%;height:100%">
+            <defs>
+              <linearGradient id="hg" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#D4AF37" stop-opacity="0.3"/>
+                <stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <path d="M0 48 C30 44 60 52 90 36 C120 20 150 32 180 18 C210 4 240 24 300 8 L300 64 L0 64 Z" fill="url(#hg)"/>
+            <path d="M0 48 C30 44 60 52 90 36 C120 20 150 32 180 18 C210 4 240 24 300 8" stroke="var(--gold)" stroke-width="2" fill="none" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
+        <div class="hero-card-demo" style="padding:1.1rem">
+          <div style="font-size:0.68rem;color:var(--ivory-muted);margin-bottom:0.4rem;text-transform:uppercase;letter-spacing:0.1em">Plano GOLD</div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:700;color:var(--gold)">16%</div>
+          <div style="font-size:0.68rem;color:var(--ivory-muted)">rendimento mensal</div>
+        </div>
+        <div class="hero-card-demo" style="padding:1.1rem">
+          <div style="font-size:0.68rem;color:var(--ivory-muted);margin-bottom:0.4rem;text-transform:uppercase;letter-spacing:0.1em">Rendimento</div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:700;color:var(--success)">+MT 320</div>
+          <div style="font-size:0.68rem;color:var(--ivory-muted)">este ciclo</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="land-section" id="features">
+    <div class="land-section-label">O que oferecemos</div>
+    <h2 class="land-section-title">Tudo o que uma fintech premium deve ter</h2>
+    <div class="features-grid">
+      <div class="feature-card" style="--card-accent:var(--gold);--icon-bg:rgba(212,175,55,0.15)">
+        <div class="feature-icon">📈</div>
+        <h3 class="feature-title">Investimentos com Rendimento Fixo</h3>
+        <p class="feature-desc">Até 24% ao mês nos planos Starter, Gold e Elite. Escolha rendimento quinzenal ou mensal.</p>
+      </div>
+      <div class="feature-card" style="--card-accent:var(--emerald-bright);--icon-bg:rgba(11,93,59,0.2)">
+        <div class="feature-icon">⚡</div>
+        <h3 class="feature-title">Microcrédito Instantâneo</h3>
+        <p class="feature-desc">Aceda a crédito com base no seu score financeiro. Aprovação automática sem burocracia.</p>
+      </div>
+      <div class="feature-card" style="--card-accent:#60a5fa;--icon-bg:rgba(59,130,246,0.1)">
+        <div class="feature-icon">📱</div>
+        <h3 class="feature-title">e-Mola Integrado</h3>
+        <p class="feature-desc">Depósitos e levantamentos via e-Mola. Rápido, seguro e sem complicações.</p>
+      </div>
+      <div class="feature-card" style="--card-accent:var(--success);--icon-bg:rgba(46,204,113,0.1)">
+        <div class="feature-icon">🤝</div>
+        <h3 class="feature-title">Programa de Parceiros</h3>
+        <p class="feature-desc">Ganhe prémios por metas de depósitos referenciados. Primeira meta: 50 depósitos = MT 5.000.</p>
+      </div>
+      <div class="feature-card" style="--card-accent:#a78bfa;--icon-bg:rgba(167,139,250,0.1)">
+        <div class="feature-icon">🏆</div>
+        <h3 class="feature-title">Sistema de Níveis</h3>
+        <p class="feature-desc">Suba de Bronze a Diamante conforme o seu portfólio cresce. Benefícios exclusivos em cada nível.</p>
+      </div>
+      <div class="feature-card" style="--card-accent:#f472b6;--icon-bg:rgba(244,114,182,0.1)">
+        <div class="feature-icon">🔒</div>
+        <h3 class="feature-title">Segurança Premium</h3>
+        <p class="feature-desc">KYC, JWT seguro e dados encriptados. A sua informação financeira protegida ao mais alto nível.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLANS -->
+  <section class="land-section" id="planos" style="background:rgba(11,93,59,0.05);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+    <div class="land-section-label">Planos de Investimento</div>
+    <h2 class="land-section-title">Escolha o plano certo para si</h2>
+    <div class="plans-landing">
+      <div class="plan-card starter" onclick="showLandingAuth('register')">
+        <span class="plan-badge">Starter</span>
+        <div class="plan-apy">8%</div>
+        <div class="plan-apy-label">rendimento mensal</div>
+        <div class="plan-yield-hint">+MT 16/mês em 200 MT · +MT 8/quinzena</div>
+        <div class="plan-name">Plano Starter</div>
+        <div class="plan-min">A partir de MT 200</div>
+        <ul class="plan-features">
+          <li>8% ao mês · quinzenal ou mensal</li>
+          <li>Levantamento após 15 dias</li>
+          <li>Score de crédito ativo</li>
+          <li>Acesso ao microcrédito</li>
+        </ul>
+        <button class="btn btn-outline btn-full">Começar agora</button>
+      </div>
+      <div class="plan-card gold" onclick="showLandingAuth('register')">
+        <span class="plan-badge">Gold</span>
+        <span class="plan-popular">Mais popular</span>
+        <div class="plan-apy">16%</div>
+        <div class="plan-apy-label">rendimento mensal</div>
+        <div class="plan-yield-hint">+MT 320/mês em 2.000 MT</div>
+        <div class="plan-name">Plano Gold</div>
+        <div class="plan-min">A partir de MT 2.000</div>
+        <ul class="plan-features">
+          <li>16% ao mês · lucro acelerado</li>
+          <li>Acesso a crédito premium</li>
+          <li>Score acelerado</li>
+          <li>Relatórios avançados</li>
+        </ul>
+        <button class="btn btn-gold btn-full">Investir agora</button>
+      </div>
+      <div class="plan-card elite" onclick="showLandingAuth('register')">
+        <span class="plan-badge">Elite</span>
+        <div class="plan-apy">24%</div>
+        <div class="plan-apy-label">rendimento mensal</div>
+        <div class="plan-yield-hint">+MT 2.400/mês em 10.000 MT</div>
+        <div class="plan-name">Plano Elite</div>
+        <div class="plan-min">A partir de MT 10.000</div>
+        <ul class="plan-features">
+          <li>24% ao mês · rendimento máximo</li>
+          <li>Gestor dedicado</li>
+          <li>Nível Diamante acelerado</li>
+          <li>Prioridade em levantamentos</li>
+        </ul>
+        <button class="btn btn-outline btn-full" style="border-color:rgba(185,242,255,0.3);color:#b9f2ff">Aderir ao Elite</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CREDIT -->
+  <section class="land-section" id="credito">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center">
+      <div>
+        <div class="land-section-label">Microcrédito Premium</div>
+        <h2 class="land-section-title">Crédito até 50x o seu Score</h2>
+        <p style="color:var(--ivory-dim);line-height:1.7;margin-bottom:2rem;font-size:0.9rem">
+          O seu Credit Score ANURA determina o seu limite. Cada depósito aumenta o score — sem burocracia, sem papelada, aprovação em segundos.
+        </p>
+        <div style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:2rem">
+          <div style="display:flex;align-items:center;gap:0.75rem;font-size:0.85rem">
+            <span style="color:var(--gold);font-size:1.1rem">✓</span> <span>Aprovação automática</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.75rem;font-size:0.85rem">
+            <span style="color:var(--gold);font-size:1.1rem">✓</span> <span>Taxa de 3.5% ao mês</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.75rem;font-size:0.85rem">
+            <span style="color:var(--gold);font-size:1.1rem">✓</span> <span>Prazo até 12 meses</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.75rem;font-size:0.85rem">
+            <span style="color:var(--gold);font-size:1.1rem">✓</span> <span>Valor creditado via e-Mola</span>
+          </div>
+        </div>
+        <button class="btn btn-gold" onclick="showLandingAuth('register')">Ativar o meu crédito</button>
+      </div>
+      <div class="credit-limit-display">
+        <div style="font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--ivory-muted);margin-bottom:1rem">Limite de crédito exemplo</div>
+        <div class="credit-limit-value">MT 25.000</div>
+        <div class="credit-limit-label">com Score 500</div>
+        <div style="margin-top:2rem;padding:1rem;background:var(--ivory-ghost);border-radius:var(--r-md)">
+          <div style="display:flex;justify-content:space-between;font-size:0.78rem;margin-bottom:0.5rem">
+            <span style="color:var(--ivory-muted)">Score atual</span>
+            <span style="color:var(--gold);font-weight:600">500</span>
+          </div>
+          <div style="height:6px;background:var(--ivory-ghost);border-radius:3px;overflow:hidden">
+            <div style="height:100%;width:50%;background:linear-gradient(90deg,var(--emerald-bright),var(--gold));border-radius:3px"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:0.65rem;color:var(--ivory-muted);margin-top:0.3rem">
+            <span>0</span><span>1000</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AUTH SECTION -->
+  <section class="land-auth" id="authSection" style="display:none">
+    <div class="auth-split">
+      <div class="auth-left">
+        <div class="auth-logo">
+          <div class="brand-icon"><svg width="18" height="18" viewBox="0 0 52 52" fill="none"><path d="M14 34 L20 18 L26 28 L32 18 L38 34" stroke="#D4AF37" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="26" cy="18" r="3.5" fill="#D4AF37"/></svg></div>
+          <span class="brand-name" style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:700;background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">ANURA</span>
+        </div>
+        <h2 class="auth-heading">A sua plataforma financeira premium</h2>
+        <p class="auth-sub">Invista, cresça e aceda ao crédito sem burocracia. A fintech feita para Moçambique.</p>
+        <div style="display:flex;flex-direction:column;gap:1rem">
+          <div class="stat-card gold" style="padding:1rem">
+            <div class="stat-label">Retorno Máximo</div>
+            <div class="stat-value gold">24% a.m.</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
+            <div class="stat-card" style="padding:0.85rem">
+              <div class="stat-label" style="font-size:0.65rem">Mín. Depósito</div>
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--ivory)">MT 200</div>
+            </div>
+            <div class="stat-card" style="padding:0.85rem">
+              <div class="stat-label" style="font-size:0.65rem">Pagamento</div>
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--ivory)">e-Mola</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="auth-right">
+        <div class="auth-tabs">
+          <div class="auth-tab active" id="tabLogin" onclick="switchAuthTab('login')">Entrar</div>
+          <div class="auth-tab" id="tabRegister" onclick="switchAuthTab('register')">Criar conta</div>
+        </div>
+        <!-- LOGIN -->
+        <div class="auth-form active" id="formLogin">
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-input" id="loginEmail" placeholder="o.seu@email.com">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Palavra-passe</label>
+            <input type="password" class="form-input" id="loginPass" placeholder="••••••••">
+          </div>
+          <button class="btn btn-gold btn-full" style="margin-top:0.5rem" onclick="doLogin()" id="btnLogin">Entrar na conta</button>
+          <div style="text-align:center;margin-top:1.25rem;font-size:0.78rem;color:var(--ivory-muted)">
+            Sem conta? <span style="color:var(--gold);cursor:pointer" onclick="switchAuthTab('register')">Criar agora</span>
+          </div>
+        </div>
+        <!-- REGISTER -->
+        <div class="auth-form" id="formRegister">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Nome completo</label>
+              <input type="text" class="form-input" id="regNome" placeholder="Seu nome completo">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Telefone</label>
+              <input type="tel" class="form-input" id="regTel" placeholder="84 000 0000">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-input" id="regEmail" placeholder="o.seu@email.com">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Palavra-passe</label>
+            <input type="password" class="form-input" id="regPass" placeholder="Mínimo 6 caracteres">
+          </div>
+          <button class="btn btn-gold btn-full" onclick="doRegister()" id="btnRegister">Criar a minha conta</button>
+          <div style="text-align:center;margin-top:1.25rem;font-size:0.78rem;color:var(--ivory-muted)">
+            Já tem conta? <span style="color:var(--gold);cursor:pointer" onclick="switchAuthTab('login')">Entrar</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="padding:2rem 4rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+    <div style="display:flex;align-items:center;gap:0.75rem">
+      <div class="brand-icon"><svg width="14" height="14" viewBox="0 0 52 52" fill="none"><path d="M14 34 L20 18 L26 28 L32 18 L38 34" stroke="#D4AF37" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="26" cy="18" r="3.5" fill="#D4AF37"/></svg></div>
+      <span style="font-family:'Space Grotesk',sans-serif;font-size:0.9rem;font-weight:600;background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent">ANURA</span>
+    </div>
+    <div style="font-size:0.72rem;color:var(--ivory-muted)">© 2026 ANURA Fintech · Moçambique · Todos os direitos reservados</div>
+  </footer>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     APP SHELL
+════════════════════════════════════════════════════ -->
+<div id="appShell">
+  <div class="app-grid">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-logo">
+          <div class="brand-icon">
+            <svg width="18" height="18" viewBox="0 0 52 52" fill="none">
+              <path d="M14 34 L20 18 L26 28 L32 18 L38 34" stroke="#D4AF37" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              <circle cx="26" cy="18" r="3.5" fill="#D4AF37"/>
+            </svg>
+          </div>
+          <div>
+            <div class="brand-name">ANURA</div>
+            <div class="brand-sub">Plataforma Premium</div>
+          </div>
+        </div>
+      </div>
+      <div class="sidebar-user">
+        <div class="user-card" onclick="navigate('profile')">
+          <div class="user-avatar" id="sidebarAvatar">A</div>
+          <div class="user-info">
+            <div class="user-name" id="sidebarName">—</div>
+            <div class="user-level" id="sidebarLevel">
+              <span class="level-dot" style="background:#cd7f32"></span>
+              <span class="level-label">Bronze</span>
+            </div>
+          </div>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--ivory-muted)"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <div class="nav-section-label">Principal</div>
+          <div class="nav-item active" onclick="navigate('dashboard')" data-screen="dashboard">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            Dashboard
+          </div>
+          <div class="nav-item" onclick="navigate('investments')" data-screen="investments">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+            Investimentos
+          </div>
+          <div class="nav-item" onclick="navigate('deposits')" data-screen="deposits">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+            Depósitos
+          </div>
+          <div class="nav-item" onclick="navigate('withdraw')" data-screen="withdraw">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+            Levantamentos
+          </div>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-label">Serviços</div>
+          <div class="nav-item" onclick="navigate('credit')" data-screen="credit">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            Microcrédito
+          </div>
+          <div class="nav-item" onclick="navigate('referral')" data-screen="referral">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Parceiros
+          </div>
+          <div class="nav-item" onclick="navigate('transactions')" data-screen="transactions">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+            Transações
+          </div>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-label">Conta</div>
+          <div class="nav-item" onclick="navigate('notifications')" data-screen="notifications">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            Notificações
+            <span class="nav-badge" id="navNotifBadge" style="display:none">0</span>
+          </div>
+          <div class="nav-item" onclick="navigate('profile')" data-screen="profile">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Perfil
+          </div>
+          <div class="nav-item" id="adminNavItem" onclick="navigate('admin')" data-screen="admin" style="display:none">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Painel Admin
+          </div>
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="btn-logout" onclick="doLogout()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Terminar sessão
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main" id="mainContent">
+      <!-- MOBILE HEADER -->
+      <div class="mobile-header" id="mobileHeader">
+        <div class="mobile-header-brand"><span class="brand-name">ANURA</span></div>
+        <div style="display:flex;gap:0.5rem">
+          <div class="btn-icon" onclick="navigate('notifications')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <span class="notif-dot" id="mobileNotifDot"></span>
+          </div>
+          <div class="btn-icon" onclick="navigate('profile')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- DESKTOP HEADER -->
+      <div class="main-header" id="desktopHeader">
+        <div class="header-title" id="headerTitle">Dashboard</div>
+        <div class="header-actions">
+          <div class="btn-icon" onclick="navigate('notifications')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <span class="notif-dot" id="desktopNotifDot"></span>
+          </div>
+          <div class="user-card" onclick="navigate('profile')" style="padding:0.4rem 0.7rem;gap:0.5rem">
+            <div class="user-avatar" id="headerAvatar" style="width:28px;height:28px;font-size:0.75rem">A</div>
+            <span style="font-size:0.8rem;font-weight:600" id="headerName">—</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCREENS -->
+      <div class="content">
+
+        <!-- DASHBOARD -->
+        <div class="screen active" id="screen-dashboard">
+          <div class="stats-grid">
+            <div class="stat-card gold">
+              <div class="stat-label">Saldo Disponível</div>
+              <div class="stat-value gold" id="dashSaldo">MT 0</div>
+              <div class="stat-sub" id="dashSaldoSub">—</div>
+            </div>
+            <div class="stat-card green">
+              <div class="stat-label">Capital Investido</div>
+              <div class="stat-value" id="dashInvestido">MT 0</div>
+              <div class="stat-sub">Em planos ativos</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Lucro Acumulado</div>
+              <div class="stat-value green" id="dashLucro">MT 0</div>
+              <div class="stat-sub" id="dashLucroSub">Total estimado</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Credit Score</div>
+              <div class="stat-value" id="dashScore">0</div>
+              <div class="stat-sub" id="dashScoreSub">Nível Bronze</div>
+            </div>
+          </div>
+
+          <div class="grid-main" style="margin-bottom:1.5rem">
+            <!-- CHART -->
+            <div class="card chart-card">
+              <div class="chart-header">
+                <div>
+                  <div class="chart-title">Evolução do Portfólio</div>
+                  <div class="chart-sub">Últimos 7 dias</div>
+                </div>
+                <div class="chart-legend">
+                  <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div>Saldo</div>
+                  <div class="legend-item"><div class="legend-dot" style="background:var(--success)"></div>Lucro</div>
+                </div>
+              </div>
+              <div class="chart-wrap">
+                <canvas id="chartPortfolio"></canvas>
+              </div>
+            </div>
+            <!-- SCORE CARD -->
+            <div class="card" style="display:flex;flex-direction:column;gap:1rem">
+              <div class="section-header">
+                <div>
+                  <div class="section-title">Credit Score</div>
+                  <div class="section-sub" id="scoreSub">Baseado nos seus depósitos</div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:1.5rem">
+                <div class="score-ring" id="scoreRing">
+                  <svg width="120" height="120" viewBox="0 0 120 120">
+                    <circle class="score-ring-track" cx="60" cy="60" r="50"/>
+                    <circle class="score-ring-fill" cx="60" cy="60" r="50" id="scoreRingFill" stroke="url(#scoreGrad)"/>
+                    <defs>
+                      <linearGradient id="scoreGrad" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#0B5D3B"/>
+                        <stop offset="100%" stop-color="#D4AF37"/>
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                  <div class="score-ring-val">
+                    <div class="score-num" id="scoreNum">0</div>
+                    <div class="score-label">Score</div>
+                  </div>
+                </div>
+                <div style="flex:1">
+                  <div style="font-size:0.78rem;color:var(--ivory-muted);margin-bottom:0.5rem">Limite de Crédito</div>
+                  <div style="font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;color:var(--gold)" id="scoreLimit">MT 0</div>
+                  <div style="font-size:0.72rem;color:var(--ivory-muted);margin-top:0.3rem">Score × 50 MT</div>
+                </div>
+              </div>
+              <button class="btn btn-outline btn-full btn-sm" onclick="navigate('credit')">Ver crédito disponível</button>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <!-- RECENT TXS -->
+            <div class="card">
+              <div class="section-header">
+                <div class="section-title">Atividade Recente</div>
+                <span class="section-action" onclick="navigate('transactions')">Ver tudo</span>
+              </div>
+              <div class="activity-list" id="dashActivity">
+                <div class="skel-text skeleton" style="width:100%;height:52px;border-radius:8px;margin-bottom:8px"></div>
+                <div class="skel-text skeleton" style="width:100%;height:52px;border-radius:8px;margin-bottom:8px"></div>
+                <div class="skel-text skeleton" style="width:100%;height:52px;border-radius:8px"></div>
+              </div>
+            </div>
+            <!-- ACTIVE INVESTMENTS -->
+            <div class="card">
+              <div class="section-header">
+                <div class="section-title">Investimentos Ativos</div>
+                <span class="section-action" onclick="navigate('investments')">Alocar capital</span>
+              </div>
+              <div id="dashInvestments" style="display:flex;flex-direction:column;gap:0.75rem">
+                <div class="skel-text skeleton" style="width:100%;height:80px;border-radius:12px"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- INVESTMENTS -->
+        <div class="screen" id="screen-investments">
+          <div class="section-header" style="margin-bottom:1.5rem">
+            <div>
+              <div class="section-title" style="font-size:1.2rem">Investimentos</div>
+              <div class="section-sub">Aloque capital e veja o seu dinheiro crescer</div>
+            </div>
+          </div>
+          <!-- Active investments -->
+          <div id="myInvestmentsList" style="margin-bottom:2rem"></div>
+          <!-- Plans -->
+          <div class="section-header">
+            <div class="section-title">Planos Disponíveis</div>
+          </div>
+          <div class="plans-grid" style="margin-bottom:1.5rem">
+            <div class="plan-card starter">
+              <span class="plan-badge">Starter</span>
+              <div class="plan-apy">8%</div>
+              <div class="plan-apy-label">rendimento mensal</div>
+        <div class="plan-yield-hint">+MT 16/mês em 200 MT · +MT 8/quinzena</div>
+              <div class="plan-name">Plano Starter</div>
+              <div class="plan-min">Mínimo: MT 200</div>
+              <ul class="plan-features">
+                <li>Quinzenal (15d) ou mensal (30d)</li>
+                <li>Rendimento por ciclo quinzenal/mensal</li>
+                <li>Score de crédito ativo</li>
+              </ul>
+              <button class="btn btn-outline btn-full" onclick="openInvestModal('starter',8,200)">Alocar capital</button>
+            </div>
+            <div class="plan-card gold">
+              <span class="plan-badge">Gold</span>
+              <span class="plan-popular">Popular</span>
+              <div class="plan-apy">16%</div>
+              <div class="plan-apy-label">rendimento mensal</div>
+        <div class="plan-yield-hint">+MT 320/mês em 2.000 MT</div>
+              <div class="plan-name">Plano Gold</div>
+              <div class="plan-min">Mínimo: MT 2.000</div>
+              <ul class="plan-features">
+                <li>16% ao mês · até +320 MT/mês</li>
+                <li>Quinzenal (15d) ou mensal (30d)</li>
+                <li>Acesso a crédito premium</li>
+              </ul>
+              <button class="btn btn-gold btn-full" onclick="openInvestModal('gold',16,2000)">Alocar capital</button>
+            </div>
+            <div class="plan-card elite">
+              <span class="plan-badge">Elite</span>
+              <div class="plan-apy">24%</div>
+              <div class="plan-apy-label">rendimento mensal</div>
+        <div class="plan-yield-hint">+MT 2.400/mês em 10.000 MT</div>
+              <div class="plan-name">Plano Elite</div>
+              <div class="plan-min">Mínimo: MT 10.000</div>
+              <ul class="plan-features">
+                <li>24% ao mês · elite</li>
+                <li>Quinzenal (15d) ou mensal (30d)</li>
+                <li>Nível Diamante acelerado</li>
+              </ul>
+              <button class="btn btn-outline btn-full" style="border-color:rgba(185,242,255,0.3);color:#b9f2ff" onclick="openInvestModal('elite',24,10000)">Alocar capital</button>
+            </div>
+          </div>
+          <!-- Stats chart -->
+          <div class="card chart-card">
+            <div class="chart-header">
+              <div>
+                <div class="chart-title">Crescimento do Lucro (7 dias)</div>
+                <div class="chart-sub">Lucro estimado acumulado em MT</div>
+              </div>
+            </div>
+            <div class="chart-wrap">
+              <canvas id="chartInvestments"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- DEPOSITS -->
+        <div class="screen" id="screen-deposits">
+          <div class="section-header" style="margin-bottom:1.5rem">
+            <div>
+              <div class="section-title" style="font-size:1.2rem">Depósito via e-Mola</div>
+              <div class="section-sub">O valor é creditado automaticamente na sua conta</div>
+            </div>
+          </div>
+          <div class="grid-2">
+            <div>
+              <div class="deposit-steps" style="margin-bottom:1.5rem">
+                <div class="deposit-step">
+                  <div class="step-num">1</div>
+                  <div class="step-content">
+                    <div class="step-title">Envie para o número e-Mola</div>
+                    <div class="step-desc">Transfira o valor desejado para:</div>
+                    <div class="emola-number" onclick="copyToClipboard('871631824')">871 631 824</div>
+                    <div><span class="min-badge">💰 Mínimo: MT 200</span></div>
+                  </div>
+                </div>
+                <div class="deposit-step">
+                  <div class="step-num">2</div>
+                  <div class="step-content">
+                    <div class="step-title">Preencha o formulário</div>
+                    <div class="step-desc">Indique o valor, a referência da transação e anexe o comprovativo.</div>
+                  </div>
+                </div>
+                <div class="deposit-step">
+                  <div class="step-num">3</div>
+                  <div class="step-content">
+                    <div class="step-title">Confirmação automática</div>
+                    <div class="step-desc">O valor depositado é creditado automaticamente na sua conta, sem aprovação manual\.</div>
+                  </div>
+                </div>
+              </div>
+              <!-- Deposit history -->
+              <div class="card">
+                <div class="section-title" style="margin-bottom:1rem">Histórico de Depósitos</div>
+                <div class="activity-list" id="depositHistory">
+                  <div class="skeleton skel-text" style="width:100%;height:48px;border-radius:8px;margin-bottom:8px"></div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="section-title" style="margin-bottom:1.5rem">Formulário de Depósito</div>
+              <div class="form-group">
+                <label class="form-label">Valor do Depósito (MT)</label>
+                <input type="number" class="form-input" id="depValor" placeholder="Ex: 500" min="200">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Referência e-Mola</label>
+                <input type="text" class="form-input" id="depRef" placeholder="Ex: TXN2024ABC123">
+                <div class="form-hint">Número de referência da transação e-Mola</div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Código de Parceiro (opcional)</label>
+                <input type="text" class="form-input" id="depCodigo" placeholder="Ex: A1001">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Comprovativo</label>
+                <div class="file-drop" id="fileDropArea" onclick="document.getElementById('fileInput').click()" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="handleFileDrop(event)">
+                  <span class="file-drop-icon">📎</span>
+                  <div class="file-drop-text">Clique ou arraste o comprovativo<br><strong>JPG, PNG, PDF</strong></div>
+                </div>
+                <input type="file" id="fileInput" accept="image/*,.pdf" style="display:none" onchange="handleFileSelect(event)">
+                <div id="filePreview" style="display:none" class="file-preview">
+                  <span>📄</span>
+                  <span class="file-preview-name" id="filePreviewName">ficheiro.jpg</span>
+                  <span style="cursor:pointer;color:var(--danger);font-size:0.8rem" onclick="removeFile()">✕</span>
+                </div>
+              </div>
+              <button class="btn btn-gold btn-full" onclick="submitDeposit()">Enviar Comprovativo</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- WITHDRAW -->
+        <div class="screen" id="screen-withdraw">
+          <div class="section-header" style="margin-bottom:1.5rem">
+            <div>
+              <div class="section-title" style="font-size:1.2rem">Levantamento</div>
+              <div class="section-sub">Fundos via e-Mola em 2 minutos</div>
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="card">
+              <div style="margin-bottom:1.5rem">
+                <div class="stat-label">Saldo Disponível para Levantamento</div>
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:2.2rem;font-weight:700;margin-top:0.4rem;background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent" id="withdrawSaldo">MT 0</div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Valor do Levantamento (MT)</label>
+                <input type="number" class="form-input" id="withdrawValor" placeholder="Valor a levantar">
+              </div>
+              <div class="card card-sm" style="margin-bottom:1.5rem;background:rgba(212,175,55,0.05);border-color:var(--gold-dim)">
+                <div style="font-size:0.78rem;color:var(--ivory-muted);margin-bottom:0.35rem">Destino do levantamento</div>
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--gold)">e-Mola · 871 631 824</div>
+                <div style="font-size:0.72rem;color:var(--ivory-muted);margin-top:0.25rem">Processado em ~2 minutos</div>
+              </div>
+              <button class="btn btn-primary btn-full" onclick="submitWithdraw()">Solicitar Levantamento</button>
+            </div>
+            <div class="card">
+              <div class="section-title" style="margin-bottom:1rem">Histórico de Levantamentos</div>
+              <div class="activity-list" id="withdrawHistory">
+                <div class="skeleton skel-text" style="width:100%;height:48px;border-radius:8px;margin-bottom:8px"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CREDIT -->
+        <div class="screen" id="screen-credit">
+          <div class="section-header" style="margin-bottom:1.5rem">
+            <div>
+              <div class="section-title" style="font-size:1.2rem">Microcrédito Premium</div>
+              <div class="section-sub">Acesso instantâneo baseado no seu Credit Score</div>
+            </div>
+          </div>
+          <div id="creditNotice" style="display:none" class="card card-danger" style="margin-bottom:1.5rem">
+            <div style="font-size:0.85rem">⚠️ Para ativar o microcrédito, realize primeiro o seu depósito mínimo de MT 200.</div>
+            <button class="btn btn-gold btn-sm" style="margin-top:0.75rem" onclick="navigate('deposits')">Depositar agora</button>
+          </div>
+          <div class="credit-limit-display" id="creditLimitDisplay">
+            <div style="font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--ivory-muted);margin-bottom:0.75rem">Limite Disponível</div>
+            <div class="credit-limit-value" id="creditLimitVal">MT 0</div>
+            <div class="credit-limit-label">Credit Score: <span id="creditScoreVal">0</span></div>
+          </div>
+          <div class="grid-2">
+            <div class="card">
+              <div class="section-title" style="margin-bottom:1.5rem">Solicitar Empréstimo</div>
+              <div class="form-group">
+                <label class="form-label">Valor Pretendido (MT)</label>
+                <input type="number" class="form-input" id="loanValor" placeholder="Ex: 5000">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Prazo</label>
+                <select class="form-input" id="loanPrazo">
+                  <option value="3">3 meses — 3.5% a.m.</option>
+                  <option value="6">6 meses — 3.5% a.m.</option>
+                  <option value="12">12 meses — 3.5% a.m.</option>
+                </select>
+              </div>
+              <div class="card card-sm card-gold" style="margin-bottom:1.5rem">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;font-size:0.78rem">
+                  <div><span style="color:var(--ivory-muted)">Taxa mensal</span><br><strong>3.5%</strong></div>
+                  <div><span style="color:var(--ivory-muted)">Aprovação</span><br><strong>Automática</strong></div>
+                </div>
+              </div>
+              <button class="btn btn-gold btn-full" onclick="submitLoan()">Solicitar Empréstimo</button>
+            </div>
+            <div class="card">
+              <div class="section-title" style="margin-bottom:1rem">Empréstimos Ativos</div>
+              <div id="loanHistory">
+                <div class="skeleton skel-text" style="width:100%;height:48px;border-radius:8px;margin-bottom:8px"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TRANSACTIONS -->
+        <div class="screen" id="screen-transactions">
+          <div class="section-header" style="margin-bottom:1.5rem">
+            <div>
+              <div class="section-title" style="font-size:1.2rem">Transações</div>
+              <div class="section-sub">Histórico completo de movimentos</div>
+            </div>
+          </div>
+          <div class="card">
+            <div id="transactionsList">
+              <div class="skeleton skel-text" style="width:100%;height:52px;border-radius:8px;margin-bottom:8px"></div>
+              <div class="skeleton skel-text" style="width:100%;height:52px;border-radius:8px;margin-bottom:8px"></div>
+              <div class="skeleton skel-text" style="width:100%;height:52px;border-radius:8px"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- NOTIFICATIONS -->
+        <div class="screen" id="screen-notifications">
+          <div class="section-header" style="margin-bottom:1.5rem">
+            <div class="section-title" style="font-size:1.2rem">Notificações</div>
+            <span class="section-action" onclick="markNotifsRead()">Marcar todas como lidas</span>
+          </div>
+          <div id="notifsList">
+            <div class="skeleton skel-text" style="width:100%;height:72px;border-radius:12px;margin-bottom:8px"></div>
+            <div class="skeleton skel-text" style="width:100%;height:72px;border-radius:12px"></div>
+          </div>
+        </div>
+
+        <!-- REFERRAL -->
+        <div class="screen" id="screen-referral">
+          <div class="section-header" style="margin-bottom:1.5rem">
+            <div>
+              <div class="section-title" style="font-size:1.2rem">Programa de Parceiros</div>
+              <div class="section-sub">Ganhe prémios ao atingir metas de depósitos referenciados</div>
+            </div>
+          </div>
+          <div id="referralContent">
+            <div class="skeleton" style="width:100%;height:120px;border-radius:16px"></div>
+          </div>
+        </div>
+
+        <!-- PROFILE -->
+        <div class="screen" id="screen-profile">
+          <div class="section-header" style="margin-bottom:1.5rem">
+            <div class="section-title" style="font-size:1.2rem">Perfil</div>
+          </div>
+          <div id="profileContent">
+            <div class="skeleton" style="width:100%;height:140px;border-radius:20px;margin-bottom:1rem"></div>
+          </div>
+        </div>
+
+        <!-- ADMIN -->
+        <div class="screen" id="screen-admin">
+          <div class="section-header" style="margin-bottom:1.5rem">
+            <div>
+              <div class="section-title" style="font-size:1.2rem">Painel de Administração</div>
+              <div class="section-sub">Gestão completa da plataforma</div>
+            </div>
+          </div>
+          <div class="admin-tabs">
+            <div class="admin-tab active" onclick="switchAdminTab('deposits')">Depósitos Pendentes</div>
+            <div class="admin-tab" onclick="switchAdminTab('users')">Utilizadores</div>
+            <div class="admin-tab" onclick="switchAdminTab('transactions')">Transações</div>
+          </div>
+          <div class="card" style="overflow-x:auto">
+            <div id="adminContent">
+              <div class="skeleton" style="width:100%;height:200px;border-radius:12px"></div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /content -->
+    </main>
+  </div>
+
+  <!-- MOBILE NAV -->
+  <nav class="mobile-nav">
+    <div class="mobile-nav-item active" onclick="navigate('dashboard')" data-mob="dashboard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Início
+    </div>
+    <div class="mobile-nav-item" onclick="navigate('investments')" data-mob="investments">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+      Investir
+    </div>
+    <div class="mobile-nav-item" onclick="navigate('deposits')" data-mob="deposits">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      Depósito
+    </div>
+    <div class="mobile-nav-item" onclick="navigate('credit')" data-mob="credit">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+      Crédito
+    </div>
+    <div class="mobile-nav-item" onclick="navigate('profile')" data-mob="profile">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Perfil
+    </div>
+  </nav>
+</div>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="investModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="investModalTitle">Alocar Capital</div>
+      <button class="modal-close" onclick="closeModal('investModal')">✕</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Plano Selecionado</label>
+      <div class="card card-sm card-gold" id="investModalPlanInfo" style="font-size:0.85rem"></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Valor a Investir (MT)</label>
+      <input type="number" class="form-input" id="investValor" placeholder="Ex: 1000">
+      <div class="form-hint" id="investMinHint">Mínimo: MT 200</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Saldo Disponível</label>
+      <div class="form-input" style="color:var(--gold);font-weight:600;background:rgba(212,175,55,0.05)" id="investSaldoDisp">MT 0</div>
+    </div>
+    <button class="btn btn-gold btn-full" onclick="confirmInvestment()">Confirmar Investimento</button>
+  </div>
+</div>
+
+<div id="toastContainer"></div>
+
+<script>
+// ════════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════════
+const STATE = {
+  token: localStorage.getItem('anura_token') || '',
+  user: null,
+  currentScreen: 'dashboard',
+  investPlan: null, investApy: null, investMin: null,
+  fileBase64: null, fileNome: null,
+  charts: {}
+};
+
+const API_BASE = '';
+
+// ════════════════════════════════════════════════════
+// SPLASH
+// ════════════════════════════════════════════════════
+(function initSplash() {
+  const p = document.getElementById('splashParticles');
+  for (let i = 0; i < 18; i++) {
+    const el = document.createElement('div');
+    el.className = 'particle';
+    el.style.cssText = `
+      left:${Math.random()*100}%;
+      bottom:${Math.random()*40}%;
+      --dur:${2+Math.random()*3}s;
+      --delay:${Math.random()*2}s;
+      width:${2+Math.random()*3}px;height:${2+Math.random()*3}px;
+      opacity:${0.3+Math.random()*0.4};
+    `;
+    p.appendChild(el);
+  }
+  setTimeout(() => {
+    document.getElementById('splash').classList.add('hidden');
+    animateHeroCounter();
+  }, 2000);
+})();
+
+function animateHeroCounter() {
+  let v = 0;
+  const el = document.getElementById('heroCount1');
+  if (!el) return;
+  const t = setInterval(() => {
+    v += 7;
+    if (v >= 350) { el.textContent = '350+'; clearInterval(t); return; }
+    el.textContent = v;
+  }, 12);
+}
+
+// ════════════════════════════════════════════════════
+// API
+// ════════════════════════════════════════════════════
+async function api(method, endpoint, data) {
+  const opts = {
+    method,
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include'
+  };
+  if (STATE.token) opts.headers['Authorization'] = 'Bearer ' + STATE.token;
+  if (data) opts.body = JSON.stringify(data);
+  let res;
+  try {
+    res = await fetch(API_BASE + endpoint, opts);
+  } catch {
+    throw new Error('Servidor indisponível. Execute: npm start');
+  }
+  let json;
+  try {
+    json = await res.json();
+  } catch {
+    throw new Error('Resposta inválida do servidor.');
+  }
+  if (!res.ok) {
+    const msg = json.erro || json.message || 'Erro';
+    if (res.status === 503 && json.detalhe) throw new Error(msg + ' — ' + json.detalhe);
+    throw new Error(msg);
+  }
+  return json;
+}
+
+// ════════════════════════════════════════════════════
+// TOAST
+// ════════════════════════════════════════════════════
+function showToast(msg, type = 'info') {
+  const c = document.getElementById('toastContainer');
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  const icons = { success: '✓', error: '✕', info: 'ℹ' };
+  const colors = { success: 'var(--success)', error: 'var(--danger)', info: 'var(--gold)' };
+  t.innerHTML = `<span style="color:${colors[type]};font-size:1.1rem">${icons[type]||'ℹ'}</span><span style="flex:1">${msg}</span>`;
+  c.appendChild(t);
+  setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translateX(20px)'; t.style.transition = 'all 0.3s'; setTimeout(() => t.remove(), 300); }, 3500);
+}
+
+// ════════════════════════════════════════════════════
+// NAVIGATION
+// ════════════════════════════════════════════════════
+const SCREEN_TITLES = {
+  dashboard: 'Dashboard', investments: 'Investimentos', deposits: 'Depósito',
+  withdraw: 'Levantamento', credit: 'Microcrédito', transactions: 'Transações',
+  notifications: 'Notificações', referral: 'Parceiros', profile: 'Perfil', admin: 'Admin'
+};
+
+function navigate(screen) {
+  STATE.currentScreen = screen;
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById('screen-' + screen);
+  if (el) el.classList.add('active');
+
+  document.querySelectorAll('.nav-item').forEach(n => {
+    n.classList.toggle('active', n.dataset.screen === screen);
+  });
+  document.querySelectorAll('.mobile-nav-item').forEach(n => {
+    n.classList.toggle('active', n.dataset.mob === screen);
+  });
+
+  const ht = document.getElementById('headerTitle');
+  if (ht) ht.textContent = SCREEN_TITLES[screen] || screen;
+
+  const main = document.getElementById('mainContent');
+  if (main) main.scrollTop = 0;
+
+  const loaders = {
+    dashboard: loadDashboard,
+    investments: loadInvestments,
+    deposits: loadDepositHistory,
+    withdraw: loadWithdrawScreen,
+    transactions: loadTransactions,
+    notifications: loadNotifications,
+    credit: loadCredit,
+    referral: loadReferral,
+    profile: loadProfile,
+    admin: loadAdmin
+  };
+  if (loaders[screen]) loaders[screen]();
+}
+
+// ════════════════════════════════════════════════════
+// AUTH
+// ════════════════════════════════════════════════════
+function showLandingAuth(tab) {
+  document.getElementById('authSection').style.display = 'flex';
+  switchAuthTab(tab);
+  document.getElementById('authSection').scrollIntoView({ behavior: 'smooth' });
+}
+function scrollToSection(id) {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+}
+function switchAuthTab(tab) {
+  document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+  document.getElementById('tab' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
+  document.getElementById('form' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
+}
+
+async function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPass').value;
+  if (!email || !password) return showToast('Preencha todos os campos.', 'error');
+  const btn = document.getElementById('btnLogin');
+  btn.textContent = 'A entrar…'; btn.disabled = true;
+  try {
+    const data = await api('POST', '/api/auth/login', { email, password });
+    STATE.token = data.token;
+    STATE.user = data.user;
+    localStorage.setItem('anura_token', data.token);
+    enterApp();
+  } catch (e) {
+    showToast(e.message, 'error');
+    btn.textContent = 'Entrar na conta'; btn.disabled = false;
+  }
+}
+
+async function doRegister() {
+  const nome = document.getElementById('regNome').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  const telefone = document.getElementById('regTel').value.trim();
+  const password = document.getElementById('regPass').value;
+  if (!nome || !email || !telefone || !password) return showToast('Preencha todos os campos.', 'error');
+  const btn = document.getElementById('btnRegister');
+  btn.textContent = 'A criar conta…'; btn.disabled = true;
+  try {
+    const data = await api('POST', '/api/auth/registar', { nome, email, telefone, password });
+    STATE.token = data.token;
+    STATE.user = data.user;
+    localStorage.setItem('anura_token', data.token);
+    enterApp();
+    showToast('Conta criada com sucesso! Bem-vindo à ANURA.', 'success');
+  } catch (e) {
+    showToast(e.message, 'error');
+    btn.textContent = 'Criar a minha conta'; btn.disabled = false;
+  }
+}
+
+async function doLogout() {
+  try { await api('POST', '/api/auth/logout'); } catch {}
+  STATE.token = '';
+  STATE.user = null;
+  localStorage.removeItem('anura_token');
+  document.getElementById('appShell').style.display = 'none';
+  document.getElementById('landing').style.display = 'block';
+  showToast('Sessão encerrada.', 'info');
+}
+
+function enterApp() {
+  document.getElementById('landing').style.display = 'none';
+  document.getElementById('appShell').style.display = 'block';
+  updateSidebar();
+  navigate('dashboard');
+  loadNotifications();
+}
+
+function updateSidebar() {
+  const u = STATE.user;
+  if (!u) return;
+  const init = (u.nome || 'A').charAt(0).toUpperCase();
+  ['sidebarAvatar','headerAvatar'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = init; });
+  ['sidebarName','headerName'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = u.nome?.split(' ')[0] || '—'; });
+  const levelEl = document.getElementById('sidebarLevel');
+  if (levelEl) {
+    const colors = { bronze: '#cd7f32', prata: '#b0c4de', ouro: '#D4AF37', diamante: '#b9f2ff' };
+    const nivel = u.nivel || 'bronze';
+    levelEl.innerHTML = `<span class="level-dot" style="background:${colors[nivel]}"></span><span class="level-label">${nivel.charAt(0).toUpperCase()+nivel.slice(1)}</span>`;
+  }
+  const adminEl = document.getElementById('adminNavItem');
+  if (adminEl) adminEl.style.display = u.role === 'admin' ? 'flex' : 'none';
+}
+
+// ════════════════════════════════════════════════════
+// FORMAT HELPERS
+// ════════════════════════════════════════════════════
+function fmtMT(v) { return parseFloat(v||0).toLocaleString('pt-MZ', { minimumFractionDigits: 0, maximumFractionDigits: 2 }); }
+function fmtDate(d) { return new Date(d).toLocaleDateString('pt-MZ', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' }); }
+const TX_ICONS = { deposito:'💰', levantamento:'💸', investimento:'📈', rendimento:'✨', credito:'🏦', comissao:'🤝' };
+const TX_LABELS = { deposito:'Depósito', levantamento:'Levantamento', investimento:'Investimento', rendimento:'Rendimento', credito:'Empréstimo', comissao:'Prémio Parceiro' };
+function statusBadge(e) {
+  const m = { pendente:'pending', confirmado:'confirmed', rejeitado:'rejected', a_caminho:'transit', depositado:'confirmed' };
+  const l = { pendente:'Pendente', confirmado:'Confirmado', rejeitado:'Rejeitado', a_caminho:'A caminho', depositado:'Depositado' };
+  return `<span class="badge ${m[e]||'pending'}">${l[e]||e}</span>`;
+}
+function activityItemHTML(tx) {
+  const isIn = ['deposito','rendimento','credito','comissao'].includes(tx.tipo);
+  return `
+  <div class="activity-item">
+    <div class="activity-icon ${isIn?'green':'blue'}">${TX_ICONS[tx.tipo]||'•'}</div>
+    <div class="activity-info">
+      <div class="activity-title">${TX_LABELS[tx.tipo]||tx.tipo}</div>
+      <div class="activity-time">${fmtDate(tx.criadoEm)}</div>
+    </div>
+    <div>
+      <div class="activity-amount ${isIn?'positive':'negative'}">${isIn?'+':'-'}MT ${fmtMT(tx.valor)}</div>
+      <div class="activity-status">${statusBadge(tx.estado)}</div>
+    </div>
+  </div>`;
+}
+
+// ════════════════════════════════════════════════════
+// CHARTS
+// ════════════════════════════════════════════════════
+function createChart(id, labels, datasets, type = 'line') {
+  const canvas = document.getElementById(id);
+  if (!canvas) return;
+  if (STATE.charts[id]) STATE.charts[id].destroy();
+  const ctx = canvas.getContext('2d');
+  STATE.charts[id] = new Chart(ctx, {
+    type,
+    data: { labels, datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { intersect: false, mode: 'index' },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(5,46,43,0.95)',
+          borderColor: 'rgba(212,175,55,0.3)',
+          borderWidth: 1,
+          titleColor: '#D4AF37',
+          bodyColor: 'rgba(248,245,238,0.8)',
+          padding: 10,
+          callbacks: { label: ctx => ` MT ${fmtMT(ctx.raw)}` }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(212,175,55,0.05)', drawBorder: false },
+          ticks: { color: 'rgba(248,245,238,0.4)', font: { size: 10 } }
+        },
+        y: {
+          grid: { color: 'rgba(212,175,55,0.06)', drawBorder: false },
+          ticks: { color: 'rgba(248,245,238,0.4)', font: { size: 10 }, callback: v => 'MT '+fmtMT(v) }
+        }
+      }
+    }
+  });
+}
+
+function makeGradient(ctx, color1, color2) {
+  const g = ctx.createLinearGradient(0, 0, 0, 180);
+  g.addColorStop(0, color1);
+  g.addColorStop(1, color2);
+  return g;
+}
+
+// ════════════════════════════════════════════════════
+// DASHBOARD
+// ════════════════════════════════════════════════════
+async function loadDashboard() {
+  try {
+    const [user, txs, invStats] = await Promise.all([
+      api('GET', '/api/auth/perfil'),
+      api('GET', '/api/transacoes'),
+      api('GET', '/api/investimentos/estatisticas').catch(() => ({ evDiaria: [], lucroTotal: 0 }))
+    ]);
+    STATE.user = user;
+    updateSidebar();
+
+    // Stat cards
+    document.getElementById('dashSaldo').textContent = 'MT ' + fmtMT(user.saldoDisponivel);
+    document.getElementById('dashInvestido').textContent = 'MT ' + fmtMT(user.saldoInvestido);
+    document.getElementById('dashLucro').textContent = 'MT ' + fmtMT(invStats.lucroTotal||0);
+    document.getElementById('dashScore').textContent = user.creditScore || 0;
+    document.getElementById('dashScoreSub').textContent = 'Nível ' + (user.nivel||'bronze').charAt(0).toUpperCase() + (user.nivel||'bronze').slice(1);
+
+    // Score ring
+    const score = user.creditScore || 0;
+    const pct = Math.min(score / 1000, 1);
+    const offset = 314 - pct * 314;
+    const ring = document.getElementById('scoreRingFill');
+    const num = document.getElementById('scoreNum');
+    const limit = document.getElementById('scoreLimit');
+    if (ring) setTimeout(() => ring.style.strokeDashoffset = offset, 100);
+    if (num) animateNum(num, 0, score, 1000);
+    if (limit) limit.textContent = 'MT ' + fmtMT(score * 50);
+
+    // Activity
+    const actEl = document.getElementById('dashActivity');
+    if (actEl) {
+      const recent = txs.slice(0, 5);
+      actEl.innerHTML = recent.length
+        ? recent.map(activityItemHTML).join('')
+        : `<div class="empty-state"><div class="empty-state-icon">💼</div><div class="empty-state-title">Sem atividade</div><div class="empty-state-desc">As suas transações aparecerão aqui</div></div>`;
+    }
+
+    // Investments preview
+    const invEl = document.getElementById('dashInvestments');
+    if (invEl) {
+      const invs = await api('GET', '/api/investimentos/meus').catch(() => []);
+      const ativos = invs.filter(i => i.estado === 'ativo').slice(0, 2);
+      invEl.innerHTML = ativos.length
+        ? ativos.map(invCardHTML).join('')
+        : `<div class="empty-state"><div class="empty-state-icon">📊</div><div class="empty-state-title">Nenhum investimento ativo</div><div class="empty-state-desc">Aloque capital e comece a ganhar</div></div>`;
+    }
+
+    // Portfolio chart
+    const days = invStats.evDiaria || [];
+    if (days.length) {
+      const labels = days.map(d => d.data);
+      const balances = days.map((d, i) => (user.saldoDisponivel || 0) + d.lucro);
+      const profits = days.map(d => d.lucro);
+      setTimeout(() => {
+        const canvas = document.getElementById('chartPortfolio');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const g1 = makeGradient(ctx, 'rgba(212,175,55,0.3)', 'rgba(212,175,55,0.01)');
+        const g2 = makeGradient(ctx, 'rgba(46,204,113,0.25)', 'rgba(46,204,113,0.01)');
+        createChart('chartPortfolio', labels, [
+          { label: 'Saldo', data: balances, borderColor: '#D4AF37', backgroundColor: g1, tension: 0.4, fill: true, pointRadius: 3, pointBackgroundColor: '#D4AF37' },
+          { label: 'Lucro', data: profits, borderColor: '#2ecc71', backgroundColor: g2, tension: 0.4, fill: true, pointRadius: 3, pointBackgroundColor: '#2ecc71' }
+        ]);
+      }, 50);
+    } else {
+      const canvas = document.getElementById('chartPortfolio');
+      if (canvas) {
+        const labels = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+        const g = canvas.getContext('2d').createLinearGradient(0,0,0,180);
+        g.addColorStop(0,'rgba(212,175,55,0.2)'); g.addColorStop(1,'rgba(212,175,55,0)');
+        createChart('chartPortfolio', labels, [
+          { label: 'Saldo', data: [0,0,0,0,0,0,0], borderColor: '#D4AF37', backgroundColor: g, tension: 0.4, fill: true }
+        ]);
+      }
+    }
+  } catch (e) {
+    showToast('Erro ao carregar dashboard: ' + e.message, 'error');
+  }
+}
+
+function animateNum(el, from, to, dur) {
+  const start = performance.now();
+  function step(now) {
+    const p = Math.min((now - start) / dur, 1);
+    el.textContent = Math.round(from + (to - from) * p);
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+// ════════════════════════════════════════════════════
+// INVESTMENTS
+// ════════════════════════════════════════════════════
+function invCardHTML(inv) {
+  const prog = Math.min(100 - (inv.diasRestantes / 15) * 100, 100);
+  const colors = { starter: 'var(--emerald-bright)', gold: 'var(--gold)', elite: '#b9f2ff' };
+  return `
+  <div class="investment-card" style="border-left:3px solid ${colors[inv.plano]||'var(--emerald-bright)'}">
+    <div class="inv-header">
+      <div>
+        <span class="inv-plan ${inv.plano}">${inv.plano.toUpperCase()}</span>
+        <div class="inv-capital" style="margin-top:0.5rem">MT ${fmtMT(inv.valor)}</div>
+      </div>
+      <div style="text-align:right">
+        <div class="inv-profit">+MT ${fmtMT(inv.lucroEstimado||0)}</div>
+        <div style="font-size:0.72rem;color:var(--ivory-muted)">${inv.apy}% a.m.</div>
+      </div>
+    </div>
+    <div class="inv-progress"><div class="inv-progress-bar" style="width:${prog}%"></div></div>
+    <div class="inv-meta">
+      <div class="inv-meta-item">Próximo ciclo<div class="inv-meta-value">${inv.diasRestantes} dia(s)</div></div>
+      <div class="inv-meta-item">Dias ativos<div class="inv-meta-value">${inv.diasAtivos}</div></div>
+    </div>
+  </div>`;
+}
+
+async function loadInvestments() {
+  try {
+    const [invs, stats] = await Promise.all([
+      api('GET', '/api/investimentos/meus'),
+      api('GET', '/api/investimentos/estatisticas')
+    ]);
+    const ativos = invs.filter(i => i.estado === 'ativo');
+    const el = document.getElementById('myInvestmentsList');
+    if (el) {
+      if (ativos.length) {
+        el.innerHTML = `
+          <div class="section-header"><div class="section-title">Os Meus Investimentos</div></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin-bottom:2rem">
+            ${ativos.map(invCardHTML).join('')}
+          </div>
+          <div class="stats-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:2rem">
+            <div class="stat-card gold"><div class="stat-label">Capital Total</div><div class="stat-value gold">MT ${fmtMT(stats.capitalTotal)}</div></div>
+            <div class="stat-card green"><div class="stat-label">Lucro Estimado</div><div class="stat-value green">MT ${fmtMT(stats.lucroTotal)}</div></div>
+            <div class="stat-card"><div class="stat-label">Planos Ativos</div><div class="stat-value">${ativos.length}</div></div>
+          </div>`;
+      } else {
+        el.innerHTML = `<div class="card" style="margin-bottom:1.5rem"><div class="empty-state"><div class="empty-state-icon">📈</div><div class="empty-state-title">Sem investimentos ativos</div><div class="empty-state-desc">Escolha um plano abaixo e comece a ganhar hoje</div></div></div>`;
+      }
+    }
+    // Chart
+    const days = stats.evDiaria || [];
+    if (days.length) {
+      setTimeout(() => {
+        const canvas = document.getElementById('chartInvestments');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const g = makeGradient(ctx, 'rgba(46,204,113,0.3)', 'rgba(46,204,113,0.02)');
+        createChart('chartInvestments', days.map(d => d.data), [
+          { label: 'Lucro', data: days.map(d => d.lucro), borderColor: '#2ecc71', backgroundColor: g, tension: 0.4, fill: true, pointRadius: 4, pointBackgroundColor: '#2ecc71' }
+        ]);
+      }, 50);
+    }
+  } catch (e) {
+    showToast('Erro: ' + e.message, 'error');
+  }
+}
+
+function openInvestModal(plano, apy, min) {
+  STATE.investPlan = plano; STATE.investApy = apy; STATE.investMin = min;
+  document.getElementById('investModalTitle').textContent = 'Plano ' + plano.toUpperCase();
+  const colors = { starter: 'var(--emerald-bright)', gold: 'var(--gold)', elite: '#b9f2ff' };
+  document.getElementById('investModalPlanInfo').innerHTML = `
+    <span class="inv-plan ${plano}" style="font-size:0.75rem">${plano.toUpperCase()}</span>
+    <span style="margin-left:auto;font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;color:${colors[plano]}">${apy}% a.m.</span>`;
+  document.getElementById('investMinHint').textContent = 'Mínimo: MT ' + fmtMT(min);
+  document.getElementById('investSaldoDisp').textContent = 'MT ' + fmtMT(STATE.user?.saldoDisponivel || 0);
+  document.getElementById('investValor').value = '';
+  document.getElementById('investModal').classList.add('active');
+}
+
+async function confirmInvestment() {
+  const valor = parseFloat(document.getElementById('investValor').value);
+  if (!valor || valor < STATE.investMin) return showToast(`Mínimo: MT ${fmtMT(STATE.investMin)}`, 'error');
+  try {
+    const data = await api('POST', '/api/investimentos/alocar', { valor, plano: STATE.investPlan });
+    STATE.user.saldoDisponivel = data.saldoDisponivel;
+    STATE.user.saldoInvestido = data.saldoInvestido;
+    closeModal('investModal');
+    showToast(`Capital alocado no Plano ${STATE.investPlan.toUpperCase()}! 🎉`, 'success');
+    loadInvestments();
+  } catch (e) { showToast(e.message, 'error'); }
+}
+
+// ════════════════════════════════════════════════════
+// DEPOSITS
+// ════════════════════════════════════════════════════
+async function loadDepositHistory() {
+  const el = document.getElementById('depositHistory');
+  if (!el) return;
+  try {
+    const deps = await api('GET', '/api/depositos/meus');
+    el.innerHTML = deps.length
+      ? deps.map(activityItemHTML).join('')
+      : `<div class="empty-state"><div class="empty-state-icon">📥</div><div class="empty-state-title">Nenhum depósito</div></div>`;
+  } catch {}
+}
+
+function handleFileSelect(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  processFile(file);
+}
+
+function handleFileDrop(e) {
+  e.preventDefault();
+  document.getElementById('fileDropArea').classList.remove('drag');
+  const file = e.dataTransfer.files[0];
+  if (file) processFile(file);
+}
+
+function processFile(file) {
+  STATE.fileNome = file.name;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    STATE.fileBase64 = ev.target.result;
+    document.getElementById('fileDropArea').style.display = 'none';
+    document.getElementById('filePreview').style.display = 'flex';
+    document.getElementById('filePreviewName').textContent = file.name;
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeFile() {
+  STATE.fileBase64 = null; STATE.fileNome = null;
+  document.getElementById('fileInput').value = '';
+  document.getElementById('fileDropArea').style.display = 'block';
+  document.getElementById('filePreview').style.display = 'none';
+}
+
+async function submitDeposit() {
+  const valor = parseFloat(document.getElementById('depValor').value);
+  const referencia = document.getElementById('depRef').value.trim();
+  const codigoParceiro = document.getElementById('depCodigo').value.trim();
+  if (!valor || valor < 200) return showToast('Depósito mínimo de MT 200.', 'error');
+  if (!referencia) return showToast('Indique a referência da transação.', 'error');
+  if (!STATE.fileBase64) return showToast('Anexe o comprovativo.', 'error');
+  try {
+    const data = await api('POST', '/api/depositos/enviar-comprovativo', {
+      valor, referencia, codigoParceiro: codigoParceiro || undefined,
+      comprovativo: STATE.fileBase64, nomeFicheiro: STATE.fileNome
+    });
+    showToast('Depósito confirmado e creditado na sua conta! ✅', 'success');
+    removeFile();
+    document.getElementById('depValor').value = '';
+    document.getElementById('depRef').value = '';
+    document.getElementById('depCodigo').value = '';
+    loadDepositHistory();
+  } catch (e) { showToast(e.message, 'error'); }
+}
+
+function copyToClipboard(txt) {
+  navigator.clipboard.writeText(txt).then(() => showToast('Número copiado! 📋', 'success')).catch(() => {});
+}
+
+// ════════════════════════════════════════════════════
+// WITHDRAW
+// ════════════════════════════════════════════════════
+async function loadWithdrawScreen() {
+  try {
+    const user = await api('GET', '/api/auth/perfil');
+    STATE.user = user;
+    document.getElementById('withdrawSaldo').textContent = 'MT ' + fmtMT(user.saldoDisponivel);
+    const txs = await api('GET', '/api/transacoes');
+    const levs = txs.filter(t => t.tipo === 'levantamento');
+    const el = document.getElementById('withdrawHistory');
+    if (el) el.innerHTML = levs.length ? levs.map(activityItemHTML).join('') : `<div class="empty-state"><div class="empty-state-icon">💸</div><div class="empty-state-title">Sem levantamentos</div></div>`;
+  } catch {}
+}
+
+async function submitWithdraw() {
+  const valor = parseFloat(document.getElementById('withdrawValor').value);
+  if (!valor || valor <= 0) return showToast('Valor inválido.', 'error');
+  try {
+    const data = await api('POST', '/api/levantamentos/pedir', { valor });
+    showToast('Levantamento iniciado! Fundos em ~2 min via e-Mola. 💸', 'success');
+    document.getElementById('withdrawSaldo').textContent = 'MT ' + fmtMT(data.saldoDisponivel);
+    document.getElementById('withdrawValor').value = '';
+    if (STATE.user) STATE.user.saldoDisponivel = data.saldoDisponivel;
+  } catch (e) { showToast(e.message, 'error'); }
+}
+
+// ════════════════════════════════════════════════════
+// CREDIT
+// ════════════════════════════════════════════════════
+async function loadCredit() {
+  try {
+    const [user, loans] = await Promise.all([
+      api('GET', '/api/auth/perfil'),
+      api('GET', '/api/emprestimos/meus')
+    ]);
+    STATE.user = user;
+    const score = user.creditScore || 0;
+    const limite = score * 50;
+    document.getElementById('creditLimitVal').textContent = 'MT ' + fmtMT(limite);
+    document.getElementById('creditScoreVal').textContent = score;
+    const notice = document.getElementById('creditNotice');
+    if (notice) notice.style.display = score === 0 ? 'block' : 'none';
+
+    const el = document.getElementById('loanHistory');
+    if (el) el.innerHTML = loans.length ? loans.slice(0,5).map(l => `
+      <div class="activity-item">
+        <div class="activity-icon gold">🏦</div>
+        <div class="activity-info">
+          <div class="activity-title">Empréstimo ${l.prazoMeses}m @ ${l.taxaMensal}% a.m.</div>
+          <div class="activity-time">${fmtDate(l.criadoEm)}</div>
+        </div>
+        <div>
+          <div class="activity-amount positive">MT ${fmtMT(l.valor)}</div>
+          <div class="activity-status">${statusBadge(l.estado)}</div>
+        </div>
+      </div>`).join('') : `<div class="empty-state"><div class="empty-state-icon">🏦</div><div class="empty-state-title">Nenhum empréstimo</div></div>`;
+  } catch {}
+}
+
+async function submitLoan() {
+  const valor = parseFloat(document.getElementById('loanValor').value);
+  const prazoMeses = parseInt(document.getElementById('loanPrazo').value);
+  if (!valor || valor <= 0) return showToast('Valor inválido.', 'error');
+  try {
+    const data = await api('POST', '/api/emprestimos/pedir', { valor, prazoMeses });
+    showToast('Empréstimo aprovado! 🎉 ' + data.mensagem, 'success');
+    document.getElementById('loanValor').value = '';
+    if (STATE.user) STATE.user.saldoDisponivel = data.saldoDisponivel;
+    loadCredit();
+  } catch (e) { showToast(e.message, 'error'); }
+}
+
+// ════════════════════════════════════════════════════
+// TRANSACTIONS
+// ════════════════════════════════════════════════════
+async function loadTransactions() {
+  const el = document.getElementById('transactionsList');
+  if (!el) return;
+  try {
+    const txs = await api('GET', '/api/transacoes');
+    el.innerHTML = txs.length ? `<div class="activity-list">${txs.map(activityItemHTML).join('')}</div>` :
+      `<div class="empty-state"><div class="empty-state-icon">📋</div><div class="empty-state-title">Sem transações</div></div>`;
+  } catch {}
+}
+
+// ════════════════════════════════════════════════════
+// NOTIFICATIONS
+// ════════════════════════════════════════════════════
+async function loadNotifications() {
+  try {
+    const data = await api('GET', '/api/notificacoes');
+    const { notificacoes, naoLidas } = data;
+
+    // Badge
+    const show = naoLidas > 0;
+    ['desktopNotifDot','mobileNotifDot'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = show ? 'block' : 'none';
+    });
+    const badge = document.getElementById('navNotifBadge');
+    if (badge) { badge.style.display = show ? 'flex' : 'none'; badge.textContent = naoLidas; }
+
+    if (STATE.currentScreen !== 'notifications') return;
+    const el = document.getElementById('notifsList');
+    if (!el) return;
+    const icons = { deposito:'💰', investimento:'📈', rendimento:'✨', comissao:'🤝', emprestimo:'🏦', nivel:'🏆', levantamento:'💸', sistema:'🔔', bonus:'🎁', saldo:'💳' };
+    el.innerHTML = notificacoes.length
+      ? `<div class="notif-list">${notificacoes.map(n => `
+        <div class="notif-item${n.lida?'':' unread'}">
+          <div class="notif-icon" style="background:var(--ivory-ghost)">${icons[n.tipo]||'🔔'}</div>
+          <div class="notif-body">
+            <div class="notif-title">${n.titulo}</div>
+            <div class="notif-msg">${n.mensagem}</div>
+            <div class="notif-time">${fmtDate(n.criadoEm)}</div>
+          </div>
+        </div>`).join('')}</div>`
+      : `<div class="empty-state"><div class="empty-state-icon">🔔</div><div class="empty-state-title">Nenhuma notificação</div></div>`;
+  } catch {}
+}
+
+async function markNotifsRead() {
+  try {
+    await api('PUT', '/api/notificacoes/marcar-lidas');
+    loadNotifications();
+  } catch {}
+}
+
+// ════════════════════════════════════════════════════
+// REFERRAL / COMMISSIONS
+// ════════════════════════════════════════════════════
+async function loadReferral() {
+  const el = document.getElementById('referralContent');
+  if (!el) return;
+  try {
+    const user = await api('GET', '/api/auth/perfil');
+    STATE.user = user;
+    if (user.isComissionista) {
+      const panel = await api('GET', '/api/comissionistas/painel');
+      const pctMeta = panel.metaAtual ? Math.min(100, Math.round((panel.progresso / panel.metaAtual) * 100)) : 0;
+      el.innerHTML = `
+        <div class="card card-gold" style="margin-bottom:1.5rem">
+          <div class="stat-label">O seu código pessoal</div>
+          <div class="ref-code-box" onclick="copyToClipboard('${panel.codigo}')">${panel.codigo} <span style="font-size:0.7rem;opacity:0.6">📋</span></div>
+          <div class="form-hint" style="text-align:center;margin-top:0.5rem">Clique para copiar · Partilhe o seu código nos depósitos</div>
+        </div>
+        <div class="card" style="margin-bottom:1.5rem">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem">
+            <div class="section-title" style="margin:0">Meta do Nível ${(panel.nivelParceiro || 0) + 1}</div>
+            <span class="profile-badge" style="background:rgba(212,175,55,0.12);color:var(--gold);border:1px solid var(--gold-dim)">Nível ${panel.nivelParceiro || 0}</span>
+          </div>
+          <div style="font-size:0.85rem;color:var(--ivory-muted);margin-bottom:0.75rem;line-height:1.6">
+            ${panel.progresso} de ${panel.metaAtual} depósitos confirmados · Prémio: <strong style="color:var(--gold)">MT ${fmtMT(panel.premioAtual)}</strong>
+          </div>
+          <div class="progress-bar-wrap" style="margin-bottom:0.5rem"><div class="progress-bar-fill" style="width:${pctMeta}%"></div></div>
+          <div style="font-size:0.78rem;color:var(--ivory-muted)">Faltam <strong style="color:var(--gold)">${panel.faltam}</strong> depósitos para liberar MT ${fmtMT(panel.premioAtual)}</div>
+        </div>
+        <div class="stats-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:1.5rem">
+          <div class="stat-card gold"><div class="stat-label">Total Ganho</div><div class="stat-value gold">MT ${fmtMT(panel.totalGanhos)}</div></div>
+          <div class="stat-card green"><div class="stat-label">Este Mês</div><div class="stat-value green">MT ${fmtMT(panel.ganhosMes)}</div></div>
+          <div class="stat-card"><div class="stat-label">Depósitos</div><div class="stat-value">${panel.depositosReferidos || panel.totalConversoes}</div></div>
+        </div>
+        <div class="card">
+          <div class="section-title" style="margin-bottom:1rem">Últimos Depósitos Referenciados</div>
+          <div class="activity-list">
+            ${panel.comissoes.length ? panel.comissoes.slice(0,8).map(c => `
+            <div class="activity-item">
+              <div class="activity-icon gold">🤝</div>
+              <div class="activity-info">
+                <div class="activity-title">${c.clienteId?.nome||'—'} depositou MT ${fmtMT(c.valorDeposito)}</div>
+                <div class="activity-time">${fmtDate(c.criadoEm)}</div>
+              </div>
+              <div class="activity-amount positive">MT ${fmtMT(c.valorDeposito)}</div>
+            </div>`).join('') : '<div class="empty-state"><div class="empty-state-icon">🤝</div><div class="empty-state-title">Nenhum depósito referenciado ainda</div><div class="empty-state-desc">Partilhe o seu código para começar a ganhar</div></div>'}
+          </div>
+        </div>`;
+    } else {
+      el.innerHTML = `
+        <div class="card card-premium" style="max-width:540px;margin:0 auto">
+          <div style="text-align:center;padding:1rem 0">
+            <div style="font-size:3rem;margin-bottom:1rem">🤝</div>
+            <div class="section-title" style="margin-bottom:0.75rem">Torne-se Parceiro ANURA</div>
+            <p style="font-size:0.85rem;color:var(--ivory-muted);line-height:1.6;margin-bottom:2rem">Ganhe <strong style="color:var(--gold)">MT 5.000</strong> ao atingir 50 depósitos confirmados com o seu código. Cada nova meta libera mais prémios.</p>
+            <div class="form-group">
+              <label class="form-label">Número de BI</label>
+              <input type="text" class="form-input" id="biParceiro" placeholder="Ex: 123456789A">
+            </div>
+            <button class="btn btn-gold btn-full" onclick="joinReferral()">Aderir como Parceiro</button>
+          </div>
+        </div>`;
+    }
+  } catch {}
+}
+
+async function joinReferral() {
+  const bi = document.getElementById('biParceiro')?.value.trim();
+  if (!bi || bi.length < 5) return showToast('BI inválido.', 'error');
+  try {
+    const data = await api('POST', '/api/comissionistas/aderir', { bi });
+    showToast(`Ativado! O seu código: ${data.codigo} 🎉`, 'success');
+    loadReferral();
+  } catch (e) { showToast(e.message, 'error'); }
+}
+
+// ════════════════════════════════════════════════════
+// PROFILE
+// ════════════════════════════════════════════════════
+async function loadProfile() {
+  const el = document.getElementById('profileContent');
+  if (!el) return;
+  try {
+    const user = await api('GET', '/api/auth/perfil');
+    STATE.user = user;
+    const init = (user.nome || 'A').charAt(0).toUpperCase();
+    const levelColors = { bronze: '#cd7f32', prata: '#b0c4de', ouro: '#D4AF37', diamante: '#b9f2ff' };
+    const nivel = user.nivel || 'bronze';
+    el.innerHTML = `
+      <div class="profile-header">
+        <div class="profile-avatar-lg">${init}</div>
+        <div class="profile-info">
+          <div class="profile-name">${user.nome}</div>
+          <div class="profile-email">${user.email} · ${user.telefone}</div>
+          <div class="profile-badges">
+            <span class="profile-badge" style="background:rgba(212,175,55,0.12);color:var(--gold);border:1px solid var(--gold-dim)">🏅 ${nivel.charAt(0).toUpperCase()+nivel.slice(1)}</span>
+            ${user.kycAprovado ? '<span class="profile-badge" style="background:var(--success-dim);color:var(--success);border:1px solid rgba(46,204,113,0.2)">✓ KYC Verificado</span>' : '<span class="profile-badge" style="background:rgba(243,156,18,0.1);color:var(--warning);border:1px solid rgba(243,156,18,0.2)">⏳ KYC Pendente</span>'}
+            ${user.isComissionista ? '<span class="profile-badge" style="background:rgba(11,93,59,0.2);color:var(--emerald-bright);border:1px solid rgba(11,93,59,0.3)">🤝 Parceiro</span>' : ''}
+          </div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="section-title" style="margin-bottom:1rem">Editar Perfil</div>
+          <div class="form-group"><label class="form-label">Nome</label><input type="text" class="form-input" id="profNome" value="${user.nome}"></div>
+          <div class="form-group"><label class="form-label">Telefone</label><input type="text" class="form-input" id="profTel" value="${user.telefone}"></div>
+          <button class="btn btn-primary btn-full" onclick="saveProfile()">Guardar alterações</button>
+        </div>
+        <div class="card">
+          <div class="section-title" style="margin-bottom:1rem">Estatísticas da Conta</div>
+          <div class="activity-list">
+            ${[
+              ['Saldo Disponível', 'MT '+fmtMT(user.saldoDisponivel), '💰'],
+              ['Capital Investido', 'MT '+fmtMT(user.saldoInvestido), '📈'],
+              ['Credit Score', user.creditScore||0, '⭐'],
+              ['Membro desde', new Date(user.criadoEm).toLocaleDateString('pt-MZ'), '📅']
+            ].map(([k,v,i]) => `
+            <div class="activity-item">
+              <div class="activity-icon gold">${i}</div>
+              <div class="activity-info"><div class="activity-title">${k}</div></div>
+              <div style="font-weight:700;font-size:0.85rem;color:var(--gold)">${v}</div>
+            </div>`).join('')}
+          </div>
+        </div>
+      </div>`;
+  } catch {}
+}
+
+async function saveProfile() {
+  const nome = document.getElementById('profNome')?.value.trim();
+  const telefone = document.getElementById('profTel')?.value.trim();
+  try {
+    await api('PUT', '/api/auth/perfil', { nome, telefone });
+    if (STATE.user) { STATE.user.nome = nome; STATE.user.telefone = telefone; }
+    updateSidebar();
+    showToast('Perfil atualizado com sucesso! ✅', 'success');
+  } catch (e) { showToast(e.message, 'error'); }
+}
+
+// ════════════════════════════════════════════════════
+// ADMIN
+// ════════════════════════════════════════════════════
+let currentAdminTab = 'deposits';
+function switchAdminTab(tab) {
+  currentAdminTab = tab;
+  document.querySelectorAll('.admin-tab').forEach((t,i) => t.classList.toggle('active', ['deposits','users','transactions'][i] === tab));
+  loadAdminTab(tab);
+}
+function loadAdmin() { loadAdminTab(currentAdminTab); }
+
+async function loadAdminTab(tab) {
+  const el = document.getElementById('adminContent');
+  el.innerHTML = '<div class="skeleton" style="width:100%;height:200px;border-radius:12px"></div>';
+  try {
+    if (tab === 'deposits') {
+      const deps = await api('GET', '/api/admin/depositos?estado=pendente');
+      el.innerHTML = deps.length ? `<table class="admin-table">
+        <thead><tr><th>Utilizador</th><th>Valor</th><th>Referência</th><th>Parceiro</th><th>Comprovativo</th><th>Data</th><th>Ações</th></tr></thead>
+        <tbody>${deps.map(d => `<tr>
+          <td>${d.userId?.nome||'—'}<br><span style="font-size:0.7rem;opacity:0.5">${d.userId?.email||''}</span></td>
+          <td><strong>MT ${fmtMT(d.valor)}</strong></td>
+          <td>${d.referencia||'—'}</td>
+          <td>${d.codigoParceiro||'—'}</td>
+          <td>${d.comprovativoFicheiro?`<a href="/uploads/${d.comprovativoFicheiro}" target="_blank" style="color:var(--gold)">Ver</a>`:'—'}</td>
+          <td style="white-space:nowrap;font-size:0.75rem">${fmtDate(d.criadoEm)}</td>
+          <td style="white-space:nowrap">
+            <button class="btn-approve" onclick="adminApprove('${d._id}')">Aprovar</button>
+            <button class="btn-reject" onclick="adminReject('${d._id}')">Rejeitar</button>
+          </td>
+        </tr>`).join('')}</tbody>
+      </table>` : `<div class="empty-state"><div class="empty-state-icon">✅</div><div class="empty-state-title">Nenhum depósito pendente</div></div>`;
+    }
+    if (tab === 'users') {
+      const users = await api('GET', '/api/admin/utilizadores');
+      el.innerHTML = `<table class="admin-table">
+        <thead><tr><th>Nome</th><th>Email</th><th>Nível</th><th>Saldo</th><th>Score</th><th>KYC</th></tr></thead>
+        <tbody>${users.map(u => `<tr>
+          <td>${u.nome}</td><td>${u.email}</td>
+          <td>${u.nivel||'bronze'}</td>
+          <td>MT ${fmtMT(u.saldoDisponivel)}</td>
+          <td>${u.creditScore||0}</td>
+          <td>${u.kycAprovado?'<span class="badge confirmed">✓</span>':'<button class="btn-approve" onclick="adminKyc(\''+u._id+'\')">Aprovar</button>'}</td>
+        </tr>`).join('')}</tbody>
+      </table>`;
+    }
+    if (tab === 'transactions') {
+      const txs = await api('GET', '/api/admin/transacoes');
+      el.innerHTML = `<table class="admin-table">
+        <thead><tr><th>Utilizador</th><th>Tipo</th><th>Valor</th><th>Estado</th><th>Data</th></tr></thead>
+        <tbody>${txs.map(t => `<tr>
+          <td>${t.userId?.nome||'—'}</td>
+          <td>${TX_LABELS[t.tipo]||t.tipo}</td>
+          <td>MT ${fmtMT(t.valor)}</td>
+          <td>${statusBadge(t.estado)}</td>
+          <td style="font-size:0.75rem;white-space:nowrap">${fmtDate(t.criadoEm)}</td>
+        </tr>`).join('')}</tbody>
+      </table>`;
+    }
+  } catch (e) { el.innerHTML = `<div style="color:var(--danger);padding:1rem">${e.message}</div>`; }
+}
+
+async function adminApprove(id) {
+  try {
+    await api('POST', `/api/admin/depositos/aprovar/${id}`);
+    showToast('Depósito aprovado. Saldo atualizado. ✅', 'success');
+    loadAdminTab('deposits');
+  } catch (e) { showToast(e.message, 'error'); }
+}
+
+async function adminReject(id) {
+  const motivo = prompt('Motivo da rejeição (opcional):');
+  if (motivo === null) return;
+  try {
+    await api('POST', `/api/admin/depositos/rejeitar/${id}`, { motivo: motivo || undefined });
+    showToast('Depósito rejeitado.', 'info');
+    loadAdminTab('deposits');
+  } catch (e) { showToast(e.message, 'error'); }
+}
+
+async function adminKyc(userId) {
+  try {
+    await api('POST', `/api/admin/kyc/aprovar/${userId}`);
+    showToast('KYC aprovado. ✅', 'success');
+    loadAdminTab('users');
+  } catch (e) { showToast(e.message, 'error'); }
+}
+
+// ════════════════════════════════════════════════════
+// MODAL
+// ════════════════════════════════════════════════════
+function closeModal(id) {
+  document.getElementById(id).classList.remove('active');
+}
+document.querySelectorAll('.modal-overlay').forEach(m => {
+  m.addEventListener('click', e => { if (e.target === m) m.classList.remove('active'); });
+});
+
+// ════════════════════════════════════════════════════
+// LANDING NAV SCROLL
+// ════════════════════════════════════════════════════
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('landNav');
+  if (nav) nav.classList.toggle('scrolled', window.scrollY > 40);
+}, { passive: true });
+
+// ════════════════════════════════════════════════════
+// KEYBOARD
+// ════════════════════════════════════════════════════
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    if (document.getElementById('formLogin').classList.contains('active') &&
+        document.getElementById('authSection').style.display !== 'none') doLogin();
+    if (document.getElementById('formRegister').classList.contains('active') &&
+        document.getElementById('authSection').style.display !== 'none') doRegister();
+  }
+  if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active'));
+});
+
+// ════════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════════
+(async function init() {
+  if (STATE.token) {
+    try {
+      const user = await api('GET', '/api/auth/perfil');
+      STATE.user = user;
+      enterApp();
+    } catch {
+      STATE.token = '';
+      localStorage.removeItem('anura_token');
+    }
+  }
+})();
+</script>
+</body>
+</html>
